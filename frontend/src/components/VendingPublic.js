@@ -36,24 +36,134 @@ const VendingPublic = () => {
 
   return (
     <div style={{ background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)", minHeight: "100vh" }}>
+      {/* Modern Header with Logo */}
+      <header style={{
+        background: "rgba(255,255,255,0.95)",
+        backdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(0,0,0,0.05)",
+        padding: "20px 0",
+        position: "sticky",
+        top: 0,
+        zIndex: 1000,
+        boxShadow: "0 4px 20px rgba(0,0,0,0.08)"
+      }}>
+        <div className="container">
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}>
+            {/* Modern Logo */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px"
+            }}>
+              <div style={{
+                width: "48px",
+                height: "48px",
+                borderRadius: "12px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+                <img 
+                  src="/logo.png" 
+                  alt="SmartVend Logo" 
+                  style={{ 
+                    width: "100%", 
+                    height: "100%", 
+                    objectFit: "cover" 
+                  }} 
+                />
+              </div>
+              <div>
+                <h1 style={{
+                  fontSize: "24px",
+                  fontWeight: "800",
+                  margin: 0,
+                  background: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent"
+                }}>
+                  SmartVend
+                </h1>
+                <p style={{
+                  fontSize: "12px",
+                  color: "#4a5568",
+                  margin: 0,
+                  fontWeight: "500"
+                }}>
+                  Solusi Vending Generasi Baru
+                </p>
+              </div>
+            </div>
+
+
+            {/* Navigation Menu */}
+            <nav style={{
+              display: "flex",
+              gap: "32px",
+              alignItems: "center"
+            }}>
+              <a href="#home" style={{
+                color: "#4a5568",
+                textDecoration: "none",
+                fontWeight: "600",
+                fontSize: "16px",
+                transition: "color 0.3s ease"
+              }}>Beranda</a>
+              <a href="#about" style={{
+                color: "#4a5568",
+                textDecoration: "none",
+                fontWeight: "600",
+                fontSize: "16px",
+                transition: "color 0.3s ease"
+              }}>Tentang</a>
+              <button
+                className="button"
+                style={{
+                  background: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "25px",
+                  padding: "12px 24px",
+                  fontWeight: "600",
+                  fontSize: "14px",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 4px 16px rgba(49,130,206,0.3)"
+                }}
+                onClick={goToProductSelection}
+              >
+                🛒 Belanja Sekarang
+              </button>
+            </nav>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Carousel */}
-      <section className="hero is-fullheight" style={{ position: "relative" }}>
+      <section id="home" className="hero is-fullheight" style={{ position: "relative", paddingTop: "40px" }}>
         <Slider {...settings}>
           {[
             {
-              img: "https://images.unsplash.com/photo-1635260549221-2ff8f61f9f55?q=80&w=1600",
-              title: "Vending Machine Modern",
-              subtitle: "Belanja mudah kapanpun dan dimanapun",
+              img: "https://images.unsplash.com/photo-1564998115952-368e7d4969ea?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              title: "Teknologi Vending Pintar",
+              subtitle: "Rasakan masa depan kenyamanan dengan mesin vending berbasis AI",
+              badge: "🚀 Inovasi"
             },
             {
-              img: "https://images.unsplash.com/photo-1645969928029-75f2aa82accf?q=80&w=1600",
-              title: "Snack & Minuman Favorit",
-              subtitle: "Nikmati produk terbaik dengan harga terjangkau",
+              img: "https://images.unsplash.com/photo-1692128559152-ec9df74a955c?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              title: "Produk Premium",
+              subtitle: "Minuman segar, camilan sehat, dan produk berkualitas di ujung jari Anda",
+              badge: "⭐ Premium"
             },
             {
-              img: "https://images.unsplash.com/photo-1607082349566-1873428f2a3e?q=80&w=1600",
-              title: "Pembayaran Mudah",
-              subtitle: "Proses transaksi cepat & praktis",
+              img: "https://plus.unsplash.com/premium_photo-1745208226635-271389eda838?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              title: "Pembayaran Digital",
+              subtitle: "Transaksi aman dengan berbagai metode pembayaran dan pelacakan real-time",
+              badge: "💳 Aman"
             },
           ].map((slide, i) => (
             <div key={i} style={{ position: "relative" }}>
@@ -64,10 +174,34 @@ const VendingPublic = () => {
                   width: "100%",
                   height: "80vh",
                   objectFit: "cover",
-                  borderRadius: "12px",
+                  borderRadius: "20px",
+                  margin: "0 20px"
+                }}
+                onError={(e) => {
+                  e.target.src = "https://images.unsplash.com/photo-1607082349566-1873428f2a3e?q=80&w=1600&h=900&fit=crop";
                 }}
               />
-              {/* Enhanced Overlay with neutral colors */}
+              
+              {/* Modern Badge */}
+              <div style={{
+                position: "absolute",
+                top: "40px",
+                left: "40px",
+                background: "rgba(255,255,255,0.95)",
+                backdropFilter: "blur(20px)",
+                padding: "8px 16px",
+                borderRadius: "20px",
+                border: "1px solid rgba(255,255,255,0.2)",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
+              }}>
+                <span style={{
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  color: "#3182ce"
+                }}>{slide.badge}</span>
+              </div>
+
+              {/* Enhanced overlay with modern design */}
               <div
                 style={{
                   position: "absolute",
@@ -75,197 +209,244 @@ const VendingPublic = () => {
                   left: 0,
                   width: "100%",
                   height: "80vh",
-                  background: "linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%)",
-                  borderRadius: "12px",
+                  background: "linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 100%)",
+                  borderRadius: "20px",
+                  margin: "0 20px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
                   color: "white",
                   textAlign: "center",
-                  padding: "20px",
+                  padding: "40px",
                 }}
               >
-                <div
-                  style={{
-                    background: "rgba(255,255,255,0.95)",
-                    backdropFilter: "blur(20px)",
-                    padding: "40px",
-                    borderRadius: "20px",
-                    border: "1px solid rgba(255,255,255,0.3)",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
-                    color: "#1a202c",
+                <h1
+                  className="title is-1"
+                  style={{ 
+                    color: "white",
+                    textShadow: "0 4px 20px rgba(0,0,0,0.8)",
+                    fontWeight: "800",
+                    marginBottom: "20px",
+                    fontSize: "3.5rem",
+                    lineHeight: "1.2"
                   }}
                 >
-                  <h1
-                    className="title is-1"
-                    style={{ 
-                      color: "#1a202c",
-                      fontWeight: "700",
-                      marginBottom: "16px"
-                    }}
-                  >
-                    {slide.title}
-                  </h1>
-                  <p className="subtitle is-4 mb-4" style={{ 
-                    color: "#4a5568",
-                    fontWeight: "400"
-                  }}>
-                    {slide.subtitle}
-                  </p>
-                  <button
-                    className="button is-medium"
-                    style={{ 
-                      borderRadius: "25px", 
-                      padding: "16px 32px",
-                      fontSize: "1.1rem",
-                      fontWeight: "600",
-                      boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-                      border: "none",
-                      background: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)",
-                      color: "white"
-                    }}
-                    onClick={goToProductSelection}
-                  >
-                    🛒 Mulai Belanja
-                  </button>
-                </div>
+                  {slide.title}
+                </h1>
+                <p className="subtitle is-4 mb-5" style={{ 
+                  color: "rgba(255,255,255,0.9)",
+                  textShadow: "0 2px 12px rgba(0,0,0,0.6)",
+                  fontWeight: "400",
+                  fontSize: "1.3rem",
+                  maxWidth: "600px",
+                  lineHeight: "1.6"
+                }}>
+                  {slide.subtitle}
+                </p>
+                <button
+                  className="button is-large"
+                  style={{ 
+                    borderRadius: "30px", 
+                    padding: "20px 40px",
+                    fontSize: "1.2rem",
+                    fontWeight: "700",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
+                    border: "none",
+                    background: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)",
+                    color: "white",
+                    transition: "all 0.3s ease",
+                    cursor: "pointer"
+                  }}
+                  onClick={goToProductSelection}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = "translateY(-2px)";
+                    e.target.style.boxShadow = "0 12px 40px rgba(0,0,0,0.4)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow = "0 8px 32px rgba(0,0,0,0.3)";
+                  }}
+                >
+                  🛒 Belanja Sekarang
+                </button>
               </div>
             </div>
           ))}
         </Slider>
       </section>
 
-      {/* Produk Preview with Glass Effect */}
-      <section className="section" style={{ padding: "60px 0" }}>
+      {/* Enhanced Products Section */}
+      <section id="products" className="section" style={{ padding: "80px 0" }}>
         <div className="container">
-          <div style={{ textAlign: "center", marginBottom: "50px" }}>
+          <div style={{ textAlign: "center", marginBottom: "60px" }}>
+            <div style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "12px",
+              background: "rgba(49,130,206,0.1)",
+              padding: "12px 24px",
+              borderRadius: "25px",
+              marginBottom: "20px"
+            }}>
+              <span style={{ fontSize: "20px" }}>✨</span>
+              <span style={{
+                fontSize: "14px",
+                fontWeight: "600",
+                color: "#3182ce"
+              }}>PRODUK UNGGULAN</span>
+            </div>
             <h2 className="title is-2" style={{ 
               color: "#1a202c", 
-              fontWeight: "700"
+              fontWeight: "800",
+              fontSize: "3rem",
+              marginBottom: "16px"
             }}>
-              ✨ Produk Unggulan
+              Pilihan Terbaik
             </h2>
             <p className="subtitle is-5" style={{ 
-              color: "#4a5568"
+              color: "#4a5568",
+              fontSize: "1.2rem",
+              maxWidth: "600px",
+              margin: "0 auto"
             }}>
-              Pilihan terbaik untuk kebutuhan Anda
+              Temukan koleksi produk berkualitas tinggi yang kami pilih khusus untuk Anda
             </p>
           </div>
           
           <div className="columns is-multiline">
             {products.slice(0, 3).map((product) => (
-              <div key={product.id} className="column is-4">
+              <div onClick={goToProductSelection} key={product.id} className="column is-4">
                 <div
                   className="box has-text-centered"
                   style={{
-                    borderRadius: "20px",
-                    backdropFilter: "blur(20px)",
-                    background: "rgba(255,255,255,0.9)",
-                    border: "1px solid rgba(255,255,255,0.3)",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+                    borderRadius: "24px",
+                    backdropFilter: "blur(25px)",
+                    background: "rgba(255,255,255,0.8)",
+                    border: "1px solid rgba(255,255,255,0.6)",
+                    boxShadow: "0 20px 60px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8)",
                     transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                     cursor: "pointer",
-                    padding: "30px 20px",
+                    padding: "30px 25px",
                     position: "relative",
                     overflow: "hidden",
+                    height: "100%"
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-12px) scale(1.05)";
-                    e.currentTarget.style.boxShadow = "0 20px 40px rgba(0,0,0,0.15)";
-                    e.currentTarget.style.background = "rgba(255,255,255,1)";
+                    e.currentTarget.style.transform = "translateY(-12px) scale(1.03)";
+                    e.currentTarget.style.boxShadow = "0 30px 80px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.9)";
+                    e.currentTarget.style.background = "rgba(255,255,255,0.95)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "translateY(0) scale(1)";
-                    e.currentTarget.style.boxShadow = "0 8px 32px rgba(0,0,0,0.1)";
-                    e.currentTarget.style.background = "rgba(255,255,255,0.9)";
+                    e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8)";
+                    e.currentTarget.style.background = "rgba(255,255,255,0.8)";
                   }}
                 >
-                  {/* Glass effect overlay */}
+                  {/* Product badge */}
                   <div style={{
                     position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: "linear-gradient(135deg, rgba(49,130,206,0.05) 0%, rgba(43,108,176,0.05) 100%)",
-                    borderRadius: "20px",
-                    pointerEvents: "none"
-                  }} />
+                    top: "20px",
+                    right: "20px",
+                    background: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)",
+                    color: "white",
+                    padding: "6px 12px",
+                    borderRadius: "15px",
+                    fontSize: "12px",
+                    fontWeight: "600",
+                    zIndex: 2
+                  }}>
+                    Hot 🔥
+                  </div>
                   
                   <figure
-                    className="image is-128x128 mx-auto mb-4"
+                    className="image is-160x160 mx-auto mb-5"
                     style={{ 
                       overflow: "hidden", 
-                      borderRadius: "16px",
-                      boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+                      borderRadius: "20px",
                       position: "relative",
-                      zIndex: 1
+                      zIndex: 1,
+                      width: "280px",
+                      height: "280px"
                     }}
                   >
                     <img
                       src={
                         product.imageUrl
                           ? `http://localhost:5000${product.imageUrl}`
-                          : "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=128&h=128&fit=crop"
+                          : "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=280&h=280&fit=crop"
                       }
                       alt={product.name}
-                      style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                      style={{ 
+                        objectFit: "cover", 
+                        width: "100%", 
+                        height: "100%",
+                        display: "block"
+                      }}
                     />
                   </figure>
                   
                   <div style={{ position: "relative", zIndex: 1 }}>
                     <h3 className="title is-5" style={{ 
                       color: "#1a202c", 
-                      fontWeight: "600"
+                      fontWeight: "700",
+                      fontSize: "1.3rem",
+                      marginBottom: "12px"
                     }}>
                       {product.name}
                     </h3>
                     <p className="title is-4" style={{ 
                       color: "#3182ce",
-                      fontWeight: "700"
+                      fontWeight: "800",
+                      fontSize: "1.8rem",
+                      marginBottom: "12px"
                     }}>
                       Rp{product.price.toLocaleString()}
                     </p>
-                    <p className="subtitle is-6" style={{ 
-                      color: "#4a5568"
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "8px",
+                      marginBottom: "16px"
                     }}>
-                      📦 Stok: {product.stock}
-                    </p>
-                    
-                    <button
-                      className="button is-small"
-                      style={{
-                        borderRadius: "20px",
-                        marginTop: "10px",
-                        background: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)",
-                        border: "none",
-                        boxShadow: "0 4px 12px rgba(49,130,206,0.3)",
-                        color: "white"
-                      }}
-                    >
-                      Beli Sekarang
-                    </button>
+                      <span style={{ fontSize: "14px", color: "#4a5568" }}>📦</span>
+                      <span style={{ fontSize: "14px", color: "#4a5568", fontWeight: "600" }}>
+                        Stock: {product.stock}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="has-text-centered mt-5">
+          <div className="has-text-centered mt-6">
             <button
-              className="button is-outlined is-medium"
+              className="button is-outlined is-large"
               style={{ 
-                borderRadius: "25px", 
-                padding: "12px 32px",
-                fontSize: "1.1rem",
-                fontWeight: "600",
-                border: "2px solid #3182ce",
+                borderRadius: "30px", 
+                padding: "16px 40px",
+                fontSize: "1.2rem",
+                fontWeight: "700",
+                border: "3px solid #3182ce",
                 color: "#3182ce",
                 background: "rgba(255,255,255,0.9)",
-                backdropFilter: "blur(10px)"
+                backdropFilter: "blur(10px)",
+                transition: "all 0.3s ease",
+                cursor: "pointer"
               }}
               onClick={goToProductSelection}
+              onMouseEnter={(e) => {
+                e.target.style.background = "#3182ce";
+                e.target.style.color = "white";
+                e.target.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "rgba(255,255,255,0.9)";
+                e.target.style.color = "#3182ce";
+                e.target.style.transform = "translateY(0)";
+              }}
             >
               🔍 Lihat Semua Produk
             </button>
@@ -273,59 +454,87 @@ const VendingPublic = () => {
         </div>
       </section>
 
-      {/* Enhanced Info Section */}
-      <section
+      {/* Enhanced Features Section */}
+      <section id="about"
         className="section"
         style={{ 
-          background: "linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(248,250,252,0.8) 100%)",
+          background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%)",
           backdropFilter: "blur(20px)",
           borderTop: "1px solid rgba(0,0,0,0.05)",
           padding: "80px 0"
         }}
       >
         <div className="container has-text-centered">
-          <h2 className="title is-2 mb-5" style={{ 
-            color: "#1a202c", 
-            fontWeight: "700"
-          }}>
-            🚀 Kenapa Pilih Mesin Kami?
-          </h2>
-          <p className="subtitle is-5 mb-6" style={{ 
-            color: "#4a5568"
-          }}>
-            Nikmati pengalaman berbelanja yang berbeda dengan teknologi terkini
-          </p>
+          <div style={{ marginBottom: "60px" }}>
+            <div style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "12px",
+              background: "rgba(49,130,206,0.1)",
+              padding: "12px 24px",
+              borderRadius: "25px",
+              marginBottom: "20px"
+            }}>
+              <span style={{ fontSize: "20px" }}>🚀</span>
+              <span style={{
+                fontSize: "14px",
+                fontWeight: "600",
+                color: "#3182ce"
+              }}>KENAPA PILIH KAMI</span>
+            </div>
+            <h2 className="title is-2 mb-4" style={{ 
+              color: "#1a202c", 
+              fontWeight: "800",
+              fontSize: "3rem"
+            }}>
+              Teknologi Pintar, Pengalaman Lebih Baik
+            </h2>
+            <p className="subtitle is-5 mb-5" style={{ 
+              color: "#4a5568",
+              fontSize: "1.2rem",
+              maxWidth: "700px",
+              margin: "0 auto"
+            }}>
+              Rasakan masa depan vending dengan teknologi terkini dan layanan premium kami
+            </p>
+          </div>
           
           <div className="columns is-multiline">
             {[
               {
                 icon: "🕐",
-                title: "24/7 Tersedia",
-                desc: "Bisa digunakan kapanpun tanpa batasan waktu. Mesin kami selalu siap melayani kebutuhan Anda.",
+                title: "Tersedia 24/7",
+                desc: "Akses mesin vending kami kapan saja, di mana saja. Tidak perlu menunggu jam buka toko.",
                 color: "#3182ce"
               },
               {
                 icon: "📱",
                 title: "Pembayaran Digital",
-                desc: "Dilengkapi dengan berbagai metode pembayaran digital yang aman dan mudah digunakan.",
+                desc: "Berbagai opsi pembayaran termasuk dompet digital, kartu, dan pembayaran tanpa kontak.",
                 color: "#2b6cb0"
               },
               {
                 icon: "⚡",
-                title: "Transaksi Cepat",
-                desc: "Proses transaksi instan tanpa antrian. Dapatkan produk favorit Anda dalam hitungan detik.",
+                title: "Transaksi Instan",
+                desc: "Layanan super cepat dengan pelacakan inventaris real-time dan rekomendasi produk pintar.",
                 color: "#1a202c"
               },
+              {
+                icon: "🔒",
+                title: "Aman & Terpercaya",
+                desc: "Fitur keamanan canggih dan pemantauan real-time untuk keselamatan dan kenyamanan Anda.",
+                color: "#38a169"
+              },
             ].map((item, i) => (
-              <div key={i} className="column is-4">
+              <div key={i} className="column is-3">
                 <div
                   style={{
-                    backdropFilter: "blur(20px)",
-                    background: "rgba(255,255,255,0.9)",
-                    border: "1px solid rgba(255,255,255,0.3)",
+                    backdropFilter: "blur(25px)",
+                    background: "rgba(255,255,255,0.8)",
+                    border: "1px solid rgba(255,255,255,0.6)",
                     padding: "40px 30px",
-                    borderRadius: "24px",
-                    boxShadow: "0 12px 32px rgba(0,0,0,0.08)",
+                    borderRadius: "28px",
+                    boxShadow: "0 20px 60px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)",
                     transition: "all 0.3s ease",
                     height: "100%",
                     position: "relative",
@@ -333,47 +542,37 @@ const VendingPublic = () => {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-8px)";
-                    e.currentTarget.style.boxShadow = "0 20px 40px rgba(0,0,0,0.12)";
+                    e.currentTarget.style.boxShadow = "0 30px 80px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9)";
+                    e.currentTarget.style.background = "rgba(255,255,255,0.95)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = "0 12px 32px rgba(0,0,0,0.08)";
+                    e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)";
+                    e.currentTarget.style.background = "rgba(255,255,255,0.8)";
                   }}
                 >
-                  {/* Glass overlay */}
                   <div style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: `linear-gradient(135deg, ${item.color}10 0%, ${item.color}05 100%)`,
-                    borderRadius: "24px",
-                    pointerEvents: "none"
-                  }} />
-                  
-                  <div style={{ position: "relative", zIndex: 1 }}>
-                    <div style={{
-                      fontSize: "3rem",
-                      marginBottom: "20px",
-                      filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.1))"
-                    }}>
-                      {item.icon}
-                    </div>
-                    <h3 className="title is-4" style={{ 
-                      color: "#1a202c", 
-                      fontWeight: "600",
-                      marginBottom: "16px"
-                    }}>
-                      {item.title}
-                    </h3>
-                    <p className="subtitle is-6" style={{ 
-                      color: "#4a5568",
-                      lineHeight: "1.6"
-                    }}>
-                      {item.desc}
-                    </p>
+                    fontSize: "3rem",
+                    marginBottom: "20px",
+                    filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.1))"
+                  }}>
+                    {item.icon}
                   </div>
+                  <h3 className="title is-4" style={{ 
+                    color: "#1a202c", 
+                    fontWeight: "700",
+                    marginBottom: "16px",
+                    fontSize: "1.4rem"
+                  }}>
+                    {item.title}
+                  </h3>
+                  <p className="subtitle is-6" style={{ 
+                    color: "#4a5568",
+                    lineHeight: "1.7",
+                    fontSize: "1rem"
+                  }}>
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             ))}
@@ -381,22 +580,170 @@ const VendingPublic = () => {
         </div>
       </section>
 
-      {/* Footer Section */}
-      <section className="section" style={{ 
-        background: "rgba(255,255,255,0.9)",
-        backdropFilter: "blur(20px)",
-        padding: "40px 0",
-        borderTop: "1px solid rgba(0,0,0,0.05)"
+      {/* Modern Footer */}
+      <footer className="section" style={{ 
+        background: "linear-gradient(135deg, #1a202c 0%, #2d3748 100%)",
+        color: "white",
+        padding: "60px 0 30px 0"
       }}>
-        <div className="container has-text-centered">
-          <p style={{ 
-            color: "#4a5568",
-            fontSize: "1.1rem"
+        <div className="container">
+          <div className="columns is-multiline">
+            <div className="column is-4">
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                marginBottom: "20px"
+              }}>
+                <div style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  overflow: "hidden" // supaya gambar ikut rounded
+                }}>
+                  <img 
+                    src="/logo.png" 
+                    alt="SmartVend Logo" 
+                    style={{ 
+                      width: "100%", 
+                      height: "100%", 
+                      objectFit: "cover" 
+                    }} 
+                  />
+                </div>
+                <div>
+                  <h3 style={{
+                    fontSize: "20px",
+                    fontWeight: "800",
+                    color: "white",
+                    margin: 0
+                  }}>
+                    SmartVend
+                  </h3>
+                  <p style={{
+                    fontSize: "12px",
+                    color: "#a0aec0",
+                    margin: 0
+                  }}>
+                    Solusi Vending Generasi Baru
+                  </p>
+                </div>
+              </div>
+
+              <p style={{
+                color: "#a0aec0",
+                lineHeight: "1.6",
+                marginBottom: "20px"
+              }}>
+                Merevolusi pengalaman vending dengan teknologi pintar dan produk premium.
+              </p>
+            </div>
+            
+            <div className="column is-2">
+              <h4 style={{
+                color: "white",
+                fontWeight: "700",
+                marginBottom: "20px",
+                fontSize: "16px"
+              }}>Perusahaan</h4>
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                <li style={{ marginBottom: "10px" }}>
+                  <a href="#" style={{ color: "#a0aec0", textDecoration: "none" }}>Tentang</a>
+                </li>
+                <li style={{ marginBottom: "10px" }}>
+                  <a href="#" style={{ color: "#a0aec0", textDecoration: "none" }}>Karir</a>
+                </li>
+                <li style={{ marginBottom: "10px" }}>
+                  <a href="#" style={{ color: "#a0aec0", textDecoration: "none" }}>Kontak</a>
+                </li>
+              </ul>
+            </div>
+            
+            <div className="column is-2">
+              <h4 style={{
+                color: "white",
+                fontWeight: "700",
+                marginBottom: "20px",
+                fontSize: "16px"
+              }}>Dukungan</h4>
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                <li style={{ marginBottom: "10px" }}>
+                  <a href="#" style={{ color: "#a0aec0", textDecoration: "none" }}>Pusat Bantuan</a>
+                </li>
+                <li style={{ marginBottom: "10px" }}>
+                  <a href="#" style={{ color: "#a0aec0", textDecoration: "none" }}>Kebijakan Privasi</a>
+                </li>
+                <li style={{ marginBottom: "10px" }}>
+                  <a href="#" style={{ color: "#a0aec0", textDecoration: "none" }}>Ketentuan Layanan</a>
+                </li>
+              </ul>
+            </div>
+            
+            <div className="column is-4">
+              <h4 style={{
+                color: "white",
+                fontWeight: "700",
+                marginBottom: "20px",
+                fontSize: "16px"
+              }}>Newsletter</h4>
+              <p style={{
+                color: "#a0aec0",
+                marginBottom: "20px"
+              }}>
+                Dapatkan update terbaru tentang produk dan fitur kami.
+              </p>
+              <div style={{
+                display: "flex",
+                gap: "10px"
+              }}>
+                <input
+                  type="email"
+                  placeholder="Masukkan email Anda"
+                  style={{
+                    flex: 1,
+                    padding: "12px 16px",
+                    borderRadius: "8px",
+                    border: "1px solid #4a5568",
+                    background: "rgba(255,255,255,0.1)",
+                    color: "white",
+                    fontSize: "14px"
+                  }}
+                />
+                <button
+                  style={{
+                    padding: "12px 20px",
+                    background: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "8px",
+                    fontWeight: "600",
+                    cursor: "pointer"
+                  }}
+                >
+                  Berlangganan
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div style={{
+            borderTop: "1px solid #4a5568",
+            marginTop: "40px",
+            paddingTop: "30px",
+            textAlign: "center"
           }}>
-            © 2024 Vending Machine Modern. Dibuat dengan ❤️ untuk kenyamanan Anda.
-          </p>
+            <p style={{ 
+              color: "#a0aec0",
+              fontSize: "14px"
+            }}>
+              © {new Date().getFullYear()} SmartVend. All rights reserved.
+            </p>
+          </div>
         </div>
-      </section>
+      </footer>
     </div>
   );
 };
