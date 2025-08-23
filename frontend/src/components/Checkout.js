@@ -76,143 +76,431 @@ const Checkout = () => {
     navigate('/');
   };
 
+  const goToProductSelection = () => {
+    navigate("/products");
+  };
+
   if (selectedProducts.length === 0) {
     return (
-      <div className='container mt-5'>
-        <div className='has-text-centered'>
-          <p>Tidak ada produk yang dipilih</p>
-          <button className='button is-primary mt-3' onClick={goBack}>
-            Kembali ke Pilihan Produk
-          </button>
+      <div style={{ background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)", minHeight: "100vh" }}>
+        <div className='container mt-5'>
+          <div style={{ textAlign: "center" }}>
+            <div style={{
+              fontSize: "80px",
+              color: "#cbd5e0",
+              marginBottom: "20px"
+            }}>
+              ❌
+            </div>
+            <p style={{
+              color: "#4a5568",
+              fontSize: "1.2rem",
+              fontWeight: "600",
+              marginBottom: "20px"
+            }}>Tidak ada produk yang dipilih</p>
+            <button 
+              style={{
+                background: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)",
+                color: "white",
+                border: "none",
+                borderRadius: "25px",
+                padding: "16px 32px",
+                fontWeight: "700",
+                fontSize: "16px",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                boxShadow: "0 8px 24px rgba(49,130,206,0.3)"
+              }}
+              onClick={goBack}
+              onMouseEnter={(e) => {
+                e.target.style.transform = "translateY(-2px)";
+                e.target.style.boxShadow = "0 12px 32px rgba(49,130,206,0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "0 8px 24px rgba(49,130,206,0.3)";
+              }}
+            >
+              🔙 Kembali ke Pilihan Produk
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className='container mt-5'>
-      <div className='has-text-centered mb-6'>
-        <h1 className='title is-1'>
-          <span className='icon-text'>
-            <span className='icon is-large'>
-              <i className='fas fa-credit-card fa-2x'></i>
-            </span>
-            <span>Checkout</span>
-          </span>
-        </h1>
-        <p className='subtitle is-5'>Lengkapi pembayaran untuk produk yang dipilih</p>
-      </div>
-
-      <div className='columns'>
-        {/* Order Summary */}
-        <div className='column is-two-thirds'>
-          <div className='box'>
-            <h2 className='title is-4 mb-4'>Ringkasan Pesanan</h2>
-            {selectedProducts.map((product, index) => (
-              <div key={index} className='is-flex is-justify-content-space-between is-align-items-center mb-3 pb-3' style={{borderBottom: '1px solid #f0f0f0'}}>
-                <div className='is-flex is-align-items-center'>
-                  <figure className='image is-48x48 mr-3'>
-                    <img 
-                      src={product.imageUrl ? `http://localhost:5000${product.imageUrl}` : 'https://via.placeholder.com/48'} 
-                      alt={product.name}
-                      style={{objectFit: 'cover'}}
-                    />
-                  </figure>
-                  <div>
-                    <strong>{product.name}</strong>
-                    <p className='has-text-grey-light'>Qty: {product.quantity}</p>
-                  </div>
-                </div>
-                <div className='has-text-right'>
-                  <p className='has-text-primary'>Rp{(product.price * product.quantity).toLocaleString()}</p>
-                  <small className='has-text-grey-light'>@Rp{product.price.toLocaleString()}</small>
-                </div>
-              </div>
-            ))}
-            
-            <div className='has-text-right mt-4 pt-3' style={{borderTop: '2px solid #f0f0f0'}}>
-              <h3 className='title is-4'>Total: Rp{totalPrice.toLocaleString()}</h3>
-            </div>
+    <div style={{ background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)", minHeight: "100vh" }}>
+      <div className='container' style={{ paddingTop: "40px" }}>
+        <div style={{ textAlign: "left", marginBottom: "60px" }}>
+          <div style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "12px",
+            background: "rgba(49,130,206,0.1)",
+            padding: "12px 24px",
+            borderRadius: "25px",
+            marginBottom: "20px"
+          }}>
+            <span style={{ fontSize: "20px" }}>💳</span>
+            <span style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              color: "#3182ce"
+            }}>PEMBAYARAN</span>
           </div>
         </div>
 
-        {/* Payment Section */}
-        <div className='column is-one-third'>
-          <div className='box'>
-            <h2 className='title is-4 mb-4'>Pembayaran</h2>
-            
-            {/* Money Input */}
-            <div className='mb-4'>
-              <label className='label'>Masukkan Uang</label>
-              <div className='buttons mb-3'>
-                {[2000, 5000, 10000, 20000, 50000].map(amount => (
-                  <button
-                    key={amount}
-                    className='button is-light'
-                    onClick={() => insertMoney(amount)}
-                    disabled={isProcessing}
-                  >
-                    Rp{amount.toLocaleString()}
-                  </button>
-                ))}
+        <div className='columns'>
+          {/* Order Summary */}
+          <div className='column is-two-thirds'>
+            <div style={{
+              background: "rgba(255,255,255,0.9)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid rgba(255,255,255,0.6)",
+              borderRadius: "24px",
+              padding: "30px",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
+            }}>
+              <h2 style={{
+                color: "#1a202c",
+                fontWeight: "700",
+                fontSize: "1.8rem",
+                marginBottom: "30px"
+              }}>📋 Ringkasan Pesanan</h2>
+              {selectedProducts.map((product, index) => (
+                <div key={index} style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "20px",
+                  paddingBottom: "20px",
+                  borderBottom: "1px solid #f0f0f0"
+                }}>
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center"
+                  }}>
+                    <figure style={{
+                      width: "60px",
+                      height: "60px",
+                      marginRight: "20px",
+                      overflow: "hidden",
+                      borderRadius: "15px"
+                    }}>
+                      <img 
+                        src={product.imageUrl ? `http://localhost:5000${product.imageUrl}` : 'https://via.placeholder.com/60'} 
+                        alt={product.name}
+                        style={{
+                          objectFit: "cover",
+                          width: "100%",
+                          height: "100%",
+                          display: "block"
+                        }}
+                      />
+                    </figure>
+                    <div>
+                      <strong style={{
+                        color: "#1a202c",
+                        fontSize: "1.1rem",
+                        fontWeight: "600"
+                      }}>{product.name}</strong>
+                      <p style={{
+                        color: "#718096",
+                        margin: "4px 0 0 0",
+                        fontSize: "0.9rem"
+                      }}>Qty: {product.quantity}</p>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <p style={{
+                      color: "#3182ce",
+                      fontWeight: "700",
+                      fontSize: "1.2rem",
+                      margin: "0 0 4px 0"
+                    }}>Rp{(product.price * product.quantity).toLocaleString()}</p>
+                    <small style={{
+                      color: "#a0aec0",
+                      fontSize: "0.85rem"
+                    }}>@Rp{product.price.toLocaleString()}</small>
+                  </div>
+                </div>
+              ))}
+              
+              <div style={{
+                textAlign: "right",
+                marginTop: "30px",
+                paddingTop: "20px",
+                borderTop: "2px solid #f0f0f0"
+              }}>
+                <h3 style={{
+                  color: "#1a202c",
+                  fontWeight: "800",
+                  fontSize: "2rem",
+                  margin: 0
+                }}>Total: Rp{totalPrice.toLocaleString()}</h3>
               </div>
+            </div>
+          </div>
+
+          {/* Payment Section */}
+          <div className='column is-one-third'>
+            <div style={{
+              background: "rgba(255,255,255,0.9)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid rgba(255,255,255,0.6)",
+              borderRadius: "24px",
+              padding: "30px",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
+            }}>
+              <h2 style={{
+                color: "#1a202c",
+                fontWeight: "700",
+                fontSize: "1.8rem",
+                marginBottom: "30px"
+              }}>💳 Pembayaran</h2>
+              
+              {/* Money Input */}
+              <div style={{ marginBottom: "30px" }}>
+                <label style={{
+                  color: "#1a202c",
+                  fontWeight: "600",
+                  fontSize: "1rem",
+                  marginBottom: "15px",
+                  display: "block"
+                }}>Masukkan Uang</label>
+                <div style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                  marginBottom: "20px"
+                }}>
+                  {[2000, 5000, 10000, 20000, 50000].map(amount => (
+                    <button
+                      key={amount}
+                      style={{
+                        background: "rgba(49,130,206,0.1)",
+                        color: "#3182ce",
+                        border: "2px solid rgba(49,130,206,0.3)",
+                        borderRadius: "15px",
+                        padding: "12px 16px",
+                        fontWeight: "600",
+                        fontSize: "14px",
+                        cursor: isProcessing ? "not-allowed" : "pointer",
+                        transition: "all 0.3s ease",
+                        opacity: isProcessing ? 0.6 : 1
+                      }}
+                      onClick={() => insertMoney(amount)}
+                      disabled={isProcessing}
+                      onMouseEnter={(e) => {
+                        if (!isProcessing) {
+                          e.target.style.background = "rgba(49,130,206,0.2)";
+                          e.target.style.transform = "translateY(-2px)";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.background = "rgba(49,130,206,0.1)";
+                        e.target.style.transform = "translateY(0)";
+                      }}
+                    >
+                      Rp{amount.toLocaleString()}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  style={{
+                    background: "linear-gradient(135deg, #718096 0%, #4a5568 100%)",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "20px",
+                    padding: "12px 24px",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                    cursor: isProcessing ? "not-allowed" : "pointer",
+                    transition: "all 0.3s ease",
+                    width: "100%",
+                    marginBottom: "20px",
+                    opacity: isProcessing ? 0.6 : 1
+                  }}
+                  onClick={resetMoney}
+                  disabled={isProcessing}
+                  onMouseEnter={(e) => {
+                    if (!isProcessing) {
+                      e.target.style.transform = "translateY(-2px)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = "translateY(0)";
+                  }}
+                >
+                  🔄 Kembalikan Uang
+                </button>
+              </div>
+
+              {/* Payment Status */}
+              <div style={{ marginBottom: "30px" }}>
+                <p style={{
+                  color: "#1a202c",
+                  fontSize: "1.1rem",
+                  margin: "0 0 8px 0"
+                }}>Total uang: <strong style={{ color: "#3182ce" }}>Rp{inserted.toLocaleString()}</strong></p>
+                {inserted >= totalPrice ? (
+                  <p style={{
+                    color: "#38a169",
+                    fontWeight: "600",
+                    fontSize: "1rem",
+                    margin: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px"
+                  }}>
+                    <span>✅</span> Uang cukup
+                  </p>
+                ) : (
+                  <p style={{
+                    color: "#e53e3e",
+                    fontWeight: "600",
+                    fontSize: "1rem",
+                    margin: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px"
+                  }}>
+                    <span>⚠️</span> Kurang Rp{(totalPrice - inserted).toLocaleString()}
+                  </p>
+                )}
+              </div>
+
+              {/* Purchase Button */}
               <button
-                className='button is-fullwidth mb-3'
-                onClick={resetMoney}
-                disabled={isProcessing}
+                style={{
+                  background: inserted >= totalPrice 
+                    ? "linear-gradient(135deg, #38a169 0%, #2f855a 100%)"
+                    : "linear-gradient(135deg, #a0aec0 0%, #718096 100%)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "25px",
+                  padding: "16px 32px",
+                  fontWeight: "700",
+                  fontSize: "16px",
+                  cursor: inserted >= totalPrice && !isProcessing ? "pointer" : "not-allowed",
+                  transition: "all 0.3s ease",
+                  boxShadow: inserted >= totalPrice 
+                    ? "0 8px 24px rgba(56,161,105,0.3)"
+                    : "0 4px 16px rgba(160,174,192,0.3)",
+                  width: "100%",
+                  marginBottom: "20px",
+                  opacity: inserted >= totalPrice && !isProcessing ? 1 : 0.6
+                }}
+                onClick={processPurchase}
+                disabled={inserted < totalPrice || isProcessing}
+                onMouseEnter={(e) => {
+                  if (inserted >= totalPrice && !isProcessing) {
+                    e.target.style.transform = "translateY(-2px)";
+                    e.target.style.boxShadow = "0 12px 32px rgba(56,161,105,0.4)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = "translateY(0)";
+                  e.target.style.boxShadow = inserted >= totalPrice 
+                    ? "0 8px 24px rgba(56,161,105,0.3)"
+                    : "0 4px 16px rgba(160,174,192,0.3)";
+                }}
               >
-                Kembalikan Uang
+                {isProcessing ? (
+                  <span style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px"
+                  }}>
+                    <span>⏳</span>
+                    <span>Memproses...</span>
+                  </span>
+                ) : (
+                  <span style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px"
+                  }}>
+                    <span>💳</span>
+                    <span>Bayar (Rp{totalPrice.toLocaleString()})</span>
+                  </span>
+                )}
+              </button>
+
+              {/* Message */}
+              {message && (
+                <div style={{
+                  background: message.includes('berhasil') 
+                    ? "rgba(56,161,105,0.1)" 
+                    : "rgba(229,62,62,0.1)",
+                  border: message.includes('berhasil')
+                    ? "1px solid rgba(56,161,105,0.3)"
+                    : "1px solid rgba(229,62,62,0.3)",
+                  borderRadius: "15px",
+                  padding: "20px",
+                  marginBottom: "20px",
+                  position: "relative"
+                }}>
+                  <button 
+                    style={{
+                      position: "absolute",
+                      top: "10px",
+                      right: "10px",
+                      background: "none",
+                      border: "none",
+                      fontSize: "18px",
+                      cursor: "pointer",
+                      color: "#4a5568"
+                    }}
+                    onClick={() => setMessage('')}
+                  >
+                    ×
+                  </button>
+                  <p style={{
+                    color: message.includes('berhasil') ? "#38a169" : "#e53e3e",
+                    fontWeight: "600",
+                    margin: 0,
+                    fontSize: "0.95rem"
+                  }}>
+                    {message}
+                  </p>
+                </div>
+              )}
+
+              {/* Back Button */}
+              <button
+                style={{
+                  background: "rgba(49,130,206,0.1)",
+                  color: "#3182ce",
+                  border: "2px solid rgba(49,130,206,0.3)",
+                  borderRadius: "20px",
+                  padding: "12px 24px",
+                  fontWeight: "600",
+                  fontSize: "14px",
+                  cursor: isProcessing ? "not-allowed" : "pointer",
+                  transition: "all 0.3s ease",
+                  width: "100%",
+                  opacity: isProcessing ? 0.6 : 1
+                }}
+                onClick={goToProductSelection}
+                disabled={isProcessing}
+                onMouseEnter={(e) => {
+                  if (!isProcessing) {
+                    e.target.style.background = "rgba(49,130,206,0.2)";
+                    e.target.style.transform = "translateY(-2px)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = "rgba(49,130,206,0.1)";
+                  e.target.style.transform = "translateY(0)";
+                }}
+              >
+                🔙 Kembali ke Pilihan Produk
               </button>
             </div>
-
-            {/* Payment Status */}
-            <div className='mb-4'>
-              <p>Total uang: <strong>Rp{inserted.toLocaleString()}</strong></p>
-              {inserted >= totalPrice ? (
-                <p className='has-text-success'>
-                  <i className='fas fa-check-circle'></i> Uang cukup
-                </p>
-              ) : (
-                <p className='has-text-danger'>
-                  <i className='fas fa-exclamation-circle'></i> Kurang Rp{(totalPrice - inserted).toLocaleString()}
-                </p>
-              )}
-            </div>
-
-            {/* Purchase Button */}
-            <button
-              className='button is-primary is-fullwidth is-medium'
-              onClick={processPurchase}
-              disabled={inserted < totalPrice || isProcessing}
-            >
-              {isProcessing ? (
-                <span>
-                  <span className='icon'>
-                    <i className='fas fa-spinner fa-spin'></i>
-                  </span>
-                  <span>Memproses...</span>
-                </span>
-              ) : (
-                `Bayar (Rp${totalPrice.toLocaleString()})`
-              )}
-            </button>
-
-            {/* Message */}
-            {message && (
-              <div className={`notification mt-4 ${message.includes('berhasil') ? 'is-success' : 'is-danger'}`}>
-                <button className='delete' onClick={() => setMessage('')}></button>
-                {message}
-              </div>
-            )}
-
-            {/* Back Button */}
-            <button
-              className='button is-light is-fullwidth mt-3'
-              onClick={goBack}
-              disabled={isProcessing}
-            >
-              Kembali ke Pilihan Produk
-            </button>
           </div>
         </div>
       </div>

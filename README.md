@@ -1,235 +1,276 @@
-# 🛒 Vending Machine App
+# 🚀 Vending Machine App
 
-Aplikasi vending machine interaktif yang dibangun dengan React JS dan Node.js, dilengkapi dengan fitur pembelian publik dan panel admin untuk manajemen produk.
+Aplikasi vending machine interaktif yang mensimulasikan mesin penjual otomatis dengan fitur lengkap untuk user dan admin panel.
+
+## 🎯 Deskripsi Aplikasi
+
+Aplikasi ini adalah simulasi mesin vending machine yang memungkinkan pengguna untuk:
+- 🛒 **Memilih produk** dari berbagai makanan dan minuman
+- 💰 **Memasukkan uang** dengan berbagai pecahan
+- 🛍️ **Melakukan pembelian** dengan validasi real-time
+- 📊 **Melihat riwayat transaksi** 
+- ⚙️ **Mengelola produk** melalui admin panel
 
 ## ✨ Fitur Utama
 
-### 🏪 Tampilan Mesin Vending
-- Menampilkan 5 produk makanan/minuman dengan gambar, nama, harga, dan stok
-- Interface yang modern dan responsif dengan Bulma CSS
-- Layout yang rapi dan mudah digunakan
-- Komponen yang konsisten dan profesional
+### 🛒 **User Interface**
+- **Tampilan Mesin Vending**: Interface yang menarik dan user-friendly
+- **Katalog Produk**: Menampilkan gambar, nama, harga, dan stok produk
+- **Simulasi Uang Masuk**: Support pecahan Rp2.000, Rp5.000, Rp10.000, Rp20.000, Rp50.000
+- **Real-time Total**: Update otomatis total uang yang dimasukkan
+- **Validasi Pembelian**: Cek stok dan kecukupan uang secara real-time
+- **Uang Kembalian**: Kalkulasi otomatis kembalian setelah pembelian
 
-### 💰 Simulasi Uang Masuk
-- Pengguna dapat memasukkan uang dengan pecahan: Rp2.000, Rp5.000, Rp10.000, Rp20.000, Rp50.000
-- Total uang yang dimasukkan ditampilkan secara real-time
-- Tombol untuk mengembalikan uang
-- Validasi otomatis untuk pembelian
+### ⚙️ **Admin Panel**
+- **Dashboard**: Overview produk dan transaksi
+- **CRUD Produk**: Tambah, edit, hapus, dan lihat produk
+- **Upload Gambar**: Support upload gambar produk
+- **Manajemen Stok**: Update stok produk secara real-time
+- **Riwayat Transaksi**: Lihat semua transaksi yang dilakukan
 
-### 🛍️ Pembelian Produk
-- Tombol "Beli" untuk produk yang tersedia
-- Validasi uang tidak cukup atau stok habis
-- Setelah pembelian, stok berkurang dan uang kembalian ditampilkan
-- Riwayat transaksi tersimpan otomatis
+### 📊 **Sistem Transaksi**
+- **History Transaksi**: Simpan setiap pembelian ke database
+- **Validasi Real-time**: Cek stok dan uang sebelum pembelian
+- **Auto Update**: Stok dan data terupdate otomatis
+- **Error Handling**: Pesan error yang informatif
 
-### 👨‍💼 Admin Panel
-- Route `/admin` untuk mengatur produk (CRUD)
-- Fitur upload gambar produk
-- Manajemen stok dan harga
-- Dashboard yang informatif dengan modal form
+## 🛠️ Teknologi yang Digunakan
 
-### 📊 History Transaksi
-- Setiap pembelian disimpan ke database
-- Tampilkan riwayat pembelian di halaman `/admin/history`
-- Data transaksi lengkap dengan timestamp
-
-## 🛠️ Teknologi & Tools
-
-### Frontend
-- **React JS** - Library JavaScript untuk UI
-- **Bulma CSS** - Framework CSS modern dan responsif
+### **Frontend**
+- **React.js** - Library JavaScript untuk UI
+- **React Router DOM** - Routing dan navigasi
 - **Axios** - HTTP client untuk API calls
-- **React Router** - Routing untuk SPA
+- **JWT Decode** - Handling authentication tokens
 
-### Backend
-- **Node.js** - Runtime JavaScript
-- **Express.js** - Framework web
-- **MySQL** - Database relasional
-- **Sequelize** - ORM untuk database
-- **Multer** - Middleware untuk upload file
-- **JWT** - Autentikasi dan otorisasi
+### **Styling & UI**
+- **Inline CSS** - Custom styling dengan modern design
+- **CSS Gradients** - Background dan button styling
+- **Responsive Design** - Mobile-friendly interface
+- **Modern UI/UX** - Card design, shadows, dan animations
 
-### Form Handling
-- **react-hook-form** - Manajemen form yang efisien
-- **Yup** - Validasi schema
+### **Backend & Database**
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **MySQL** - Database management
+- **Multer** - File upload handling
+- **JWT** - Authentication system
+
+### **Development Tools**
+- **JSON Server** - Mock API untuk development
+- **CORS** - Cross-origin resource sharing
+- **Nodemon** - Auto-restart development server
 
 ## 🚀 Cara Instalasi & Menjalankan
 
-### Prerequisites
-- Node.js (versi 16 atau lebih baru)
-- MySQL (versi 8.0 atau lebih baru)
-- npm atau yarn
-
-### 1. Clone Repository
+### **1. Clone Repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/username/vending-machine-app.git
 cd vending-machine-app
 ```
 
-### 2. Setup Backend
+### **2. Install Dependencies**
+
+#### **Backend**
 ```bash
 cd backend
 npm install
 ```
 
-### 3. Konfigurasi Database
-- Buat database MySQL baru dengan nama `students`
-- Update file `backend/config/Database.js` sesuai konfigurasi database Anda:
-```javascript
-const db = new Sequelize('students', 'username', 'password', {
-    host: "localhost",
-    dialect: "mysql"
-})
-```
-
-### 4. Setup Environment Variables
-Buat file `.env` di folder `backend`:
-```env
-ACCESS_TOKEN_SECRET=your_access_token_secret_here
-REFRESH_TOKEN_SECRET=your_refresh_token_secret_here
-```
-
-### 5. Jalankan Backend
-```bash
-cd backend
-node index.js
-```
-Server akan berjalan di `http://localhost:5000`
-
-### 6. Setup Frontend
+#### **Frontend**
 ```bash
 cd frontend
 npm install
 ```
 
-### 7. Jalankan Frontend
+### **3. Setup Database**
+
+#### **MySQL Setup**
+1. Install MySQL di komputer Anda
+2. Buat database baru:
+```sql
+CREATE DATABASE vending_machine;
+USE vending_machine;
+```
+
+#### **Database Configuration**
+Update file `backend/config/Database.js`:
+```javascript
+const mysql = require('mysql');
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'your_username',
+    password: 'your_password',
+    database: 'vending_machine'
+});
+```
+
+### **4. Setup JSON Server (Development)**
+
+#### **Install JSON Server**
 ```bash
+npm install -g json-server
+```
+
+#### **Buat file db.json**
+```json
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Coca Cola",
+      "price": 5000,
+      "stock": 10,
+      "imageUrl": "/uploads/coca-cola.jpg"
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "productId": 1,
+      "productName": "Coca Cola",
+      "quantity": 1,
+      "totalPrice": 5000,
+      "paidAmount": 10000,
+      "changeAmount": 5000,
+      "createdAt": "2025-01-20T10:00:00.000Z"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin",
+      "email": "admin@vending.com",
+      "password": "hashed_password"
+    }
+  ]
+}
+```
+
+#### **Jalankan JSON Server**
+```bash
+json-server --watch db.json --port 5000
+```
+
+**Routes yang tersedia:**
+- `GET /products` - Ambil semua produk
+- `POST /products` - Tambah produk baru
+- `PUT /products/:id` - Update produk
+- `DELETE /products/:id` - Hapus produk
+- `GET /transactions` - Ambil semua transaksi
+- `POST /transactions` - Tambah transaksi baru
+- `DELETE /transactions/:id` - Hapus transaksi
+- `GET /users` - Ambil semua user
+- `POST /users` - Register user baru
+- `POST /login` - Login user
+- `POST /logout` - Logout user
+- `GET /token` - Refresh token
+
+### **5. Menjalankan Aplikasi**
+
+#### **Backend Server**
+```bash
+cd backend
+npm start
+```
+Server akan berjalan di `http://localhost:5000`
+
+#### **Frontend Development**
+```bash
+cd frontend
 npm start
 ```
 Aplikasi akan berjalan di `http://localhost:3000`
 
-## 📱 Cara Penggunaan
+## 📱 Fitur Responsif & Mobile Friendly
 
-### Untuk User Publik
-1. Buka `http://localhost:3000`
-2. Pilih produk yang ingin dibeli
-3. Masukkan uang sesuai pecahan yang tersedia
-4. Pilih jumlah produk
-5. Klik "Beli (Rp{totalPrice})"
-6. Ambil produk dan kembalian
+- **Responsive Layout**: Adaptif untuk semua ukuran layar
+- **Touch Friendly**: Button dan interface yang mudah digunakan di mobile
+- **Mobile Navigation**: Menu yang mudah diakses di perangkat mobile
+- **Optimized Images**: Gambar yang dioptimasi untuk berbagai device
 
-### Untuk Admin
-1. Buka `http://localhost:3000/admin/login`
-2. Login dengan akun admin
-3. Akses panel admin di `/admin`
-4. Kelola produk (tambah, edit, hapus)
-5. Lihat riwayat transaksi di `/admin/history`
+## 🔐 Sistem Autentikasi
 
-## 🗄️ Struktur Database
+- **JWT Token**: Secure authentication system
+- **Auto Refresh**: Token refresh otomatis saat expired
+- **Protected Routes**: Admin panel yang aman
+- **Session Management**: Manajemen session yang robust
 
-### Tabel Users
-- `id` - Primary key
-- `name` - Nama user
-- `email` - Email user
-- `password` - Password terenkripsi
-- `refresh_token` - Token refresh untuk JWT
+## 📊 Struktur Database
 
-### Tabel Products
-- `id` - Primary key
-- `name` - Nama produk
-- `imageUrl` - URL gambar produk
-- `price` - Harga produk
-- `stock` - Stok tersedia
-
-### Tabel Transactions
-- `id` - Primary key
-- `productId` - ID produk yang dibeli
-- `productName` - Nama produk
-- `quantity` - Jumlah yang dibeli
-- `paidAmount` - Jumlah uang yang dibayar
-- `changeAmount` - Uang kembalian
-- `totalPrice` - Total harga pembelian
-- `createdAt` - Timestamp transaksi
-
-## 🔧 API Endpoints
-
-### Public Endpoints
-- `GET /products` - Daftar produk
-- `POST /purchase` - Pembelian produk
-
-### Admin Endpoints (Protected)
-- `GET /transactions` - Riwayat transaksi
-- `POST /products` - Tambah produk
-- `PUT /products/:id` - Update produk
-- `DELETE /products/:id` - Hapus produk
-
-### Auth Endpoints
-- `POST /users` - Register admin
-- `POST /login` - Login admin
-- `GET /token` - Refresh token
-- `DELETE /logout` - Logout
-
-## 📁 Struktur Project
-
-```
-vending-machine-app/
-├── backend/
-│   ├── config/
-│   │   └── Database.js
-│   ├── controllers/
-│   │   ├── Users.js
-│   │   ├── Products.js
-│   │   └── RefreshToken.js
-│   ├── middleware/
-│   │   └── VerifyToken.js
-│   ├── models/
-│   │   ├── UserModel.js
-│   │   ├── ProductModel.js
-│   │   └── TransactionModel.js
-│   ├── routes/
-│   │   └── index.js
-│   ├── uploads/
-│   ├── index.js
-│   └── package.json
-├── frontend/
-│   ├── public/
-│   │   └── index.html
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── VendingPublic.js
-│   │   │   ├── Dashboard.js
-│   │   │   ├── History.js
-│   │   │   ├── Login.js
-│   │   │   ├── Register.js
-│   │   │   └── Navbar.js
-│   │   ├── App.js
-│   │   ├── index.js
-│   │   └── index.css
-│   └── package.json
-└── README.md
+### **Tabel Products**
+```sql
+CREATE TABLE products (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    price INT NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    imageUrl VARCHAR(500),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 ```
 
-## 🌟 Fitur Bonus
+### **Tabel Transactions**
+```sql
+CREATE TABLE transactions (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    productId INT NOT NULL,
+    productName VARCHAR(255) NOT NULL,
+    quantity INT NOT NULL,
+    totalPrice INT NOT NULL,
+    paidAmount INT NOT NULL,
+    changeAmount INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (productId) REFERENCES products(id)
+);
+```
 
-- **Responsive Design** - Kompatibel dengan mobile dan desktop
-- **Image Upload** - Admin dapat upload gambar produk
-- **Real-time Updates** - Stok dan data terupdate otomatis
-- **Modern UI/UX** - Interface yang menarik dengan Bulma CSS
-- **Form Validation** - Validasi input yang robust
-- **Session Management** - Admin session dengan JWT
-- **Modal Forms** - Form CRUD yang rapi dan mudah digunakan
+### **Tabel Users**
+```sql
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-## 📸 Screenshots
+## 🎨 Screenshots
 
-*Screenshots akan ditambahkan setelah aplikasi selesai*
+### **User Interface**
+- **Home Page**: Tampilan utama dengan produk
+- **Product Selection**: Halaman pilihan produk
+- **Checkout**: Halaman pembayaran
+- **Payment**: Interface input uang
 
-## 📝 Catatan Tambahan
+### **Admin Panel**
+- **Dashboard**: Overview admin
+- **Product Management**: CRUD produk
+- **Transaction History**: Riwayat transaksi
+- **User Management**: Manajemen user
 
-- Aplikasi menggunakan session admin 1 menit untuk keamanan
-- Semua gambar produk disimpan lokal di folder `uploads`
-- Database akan otomatis ter-seed dengan 5 produk default
-- Frontend menggunakan Bulma CSS untuk styling yang modern dan konsisten
-- Backend menggunakan MySQL dengan Sequelize ORM
+## 🚧 Catatan Tambahan
+
+### **Development Notes**
+- Aplikasi menggunakan React.js dengan modern JavaScript (ES6+)
+- Styling menggunakan inline CSS untuk custom design
+- State management menggunakan React Hooks
+- API calls menggunakan Axios dengan interceptors
+- File upload support untuk gambar produk
+
+### **Security Features**
+- JWT token authentication
+- Password hashing
+- Protected admin routes
+- Input validation
+- SQL injection prevention
+
+### **Performance Optimizations**
+- Lazy loading untuk gambar
+- Optimized API calls
+- Efficient state management
+- Responsive image handling
 
 ## 🤝 Kontribusi
 
@@ -239,14 +280,16 @@ vending-machine-app/
 4. Push ke branch (`git push origin feature/AmazingFeature`)
 5. Buat Pull Request
 
-## 📄 Lisensi
+## 📄 License
 
-Project ini dilisensikan di bawah MIT License - lihat file [LICENSE](LICENSE) untuk detail.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## 📞 Support
+## 📞 Kontak
 
-Jika ada pertanyaan atau masalah, silakan buat issue di repository ini.
+- **Email**: your.email@example.com
+- **GitHub**: [@username](https://github.com/username)
+- **LinkedIn**: [Your Name](https://linkedin.com/in/yourprofile)
 
 ---
 
-**Dibuat dengan ❤️ menggunakan React JS dan Node.js**
+⭐ **Star repository ini jika bermanfaat!**

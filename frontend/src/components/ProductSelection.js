@@ -95,131 +95,328 @@ const ProductSelection = () => {
     return selectedProducts[productId] !== undefined;
   };
 
-  return (
-    <div className='container mt-5'>
-      <div className='has-text-centered mb-6'>
-        <h1 className='title is-1'>
-          <span className='icon-text'>
-            <span className='icon is-large'>
-              <i className='fas fa-shopping-cart fa-2x'></i>
-            </span>
-            <span>Pilih Produk</span>
-          </span>
-        </h1>
-        <p className='subtitle is-5'>Pilih produk yang ingin dibeli dan tentukan jumlahnya</p>
-      </div>
 
-      {/* Cart Summary */}
-      {Object.keys(selectedProducts).length > 0 && (
-        <div className='box has-background-primary-light mb-5'>
-          <div className='is-flex is-justify-content-space-between is-align-items-center'>
-            <div>
-              <h3 className='title is-5 has-text-primary-dark'>Keranjang Belanja</h3>
-              <p className='has-text-primary-dark'>
-                Total: <strong>Rp{totalPrice.toLocaleString()}</strong>
-              </p>
-            </div>
-            <button 
-              className='button is-primary is-medium'
-              onClick={proceedToCheckout}
-            >
-              Lanjut ke Pembayaran
-            </button>
+
+  return (
+    <div style={{ background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)", minHeight: "100vh" }}>
+      <div className='container' style={{ paddingTop: "40px" }}>
+        <div style={{ textAlign: "left", marginBottom: "60px" }}>
+          <div style={{
+            display: "inline-flex",
+            alignItems: "left",
+            gap: "12px",
+            background: "rgba(49,130,206,0.1)",
+            padding: "12px 24px",
+            borderRadius: "25px",
+            marginBottom: "20px"
+          }}>
+            <span style={{ fontSize: "20px" }}>🛒</span>
+            <span style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              color: "#3182ce"
+            }}>PILIH PRODUK</span>
           </div>
         </div>
-      )}
 
-      {/* Products Grid */}
-      <div className='columns is-multiline'>
-        {products.map(product => (
-          <div key={product.id} className='column is-4'>
-            <div className={`box ${isProductSelected(product.id) ? 'has-background-link-light' : ''}`}>
-              <div className='has-text-centered mb-3'>
-                <figure className='image is-128x128 mx-auto'>
-                  <img 
-                    src={product.imageUrl ? `http://localhost:5000${product.imageUrl}` : 'https://via.placeholder.com/128'} 
-                    alt={product.name}
-                    style={{objectFit: 'cover'}}
-                  />
-                </figure>
+        {/* Cart Summary */}
+        {Object.keys(selectedProducts).length > 0 && (
+          <div style={{
+            background: "rgba(255,255,255,0.9)",
+            backdropFilter: "blur(20px)",
+            border: "1px solid rgba(255,255,255,0.6)",
+            borderRadius: "24px",
+            padding: "30px",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
+            borderLeft: "4px solid #3182ce",
+            marginBottom: "40px"
+          }}>
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }}>
+              <div>
+                <h3 style={{
+                  color: "#1a202c",
+                  fontWeight: "700",
+                  fontSize: "1.5rem",
+                  margin: "0 0 8px 0"
+                }}>🛒 Keranjang Belanja</h3>
+                <p style={{
+                  color: "#3182ce",
+                  fontSize: "1.2rem",
+                  fontWeight: "600",
+                  margin: 0
+                }}>
+                  Total: <strong>Rp{totalPrice.toLocaleString()}</strong>
+                </p>
               </div>
-              
-              <div className='has-text-centered mb-3'>
-                <h3 className='title is-5'>{product.name}</h3>
-                <p className='title is-4 has-text-primary'>Rp{product.price.toLocaleString()}</p>
-                <p className='subtitle is-6'>Stok: {product.stock}</p>
-              </div>
+              <button 
+                style={{
+                  background: "linear-gradient(135deg, #38a169 0%, #2f855a 100%)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "20px",
+                  padding: "16px 32px",
+                  fontWeight: "700",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 8px 24px rgba(56,161,105,0.3)"
+                }}
+                onClick={proceedToCheckout}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = "translateY(-2px)";
+                  e.target.style.boxShadow = "0 12px 32px rgba(56,161,105,0.4)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = "translateY(0)";
+                  e.target.style.boxShadow = "0 8px 24px rgba(56,161,105,0.3)";
+                }}
+              >
+                💳 Lanjut ke Pembayaran
+              </button>
+            </div>
+          </div>
+        )}
 
-              {isProductSelected(product.id) ? (
-                <div className='has-text-centered'>
-                  <div className='field has-addons has-addons-centered mb-3'>
-                    <div className='control'>
+        {/* Products Grid */}
+        <div className='columns is-multiline'>
+          {products.map(product => (
+            <div key={product.id} className='column is-4'>
+              <div style={{
+                background: isProductSelected(product.id) 
+                  ? "rgba(49,130,206,0.05)" 
+                  : "rgba(255,255,255,0.9)",
+                backdropFilter: "blur(20px)",
+                border: isProductSelected(product.id)
+                  ? "2px solid rgba(49,130,206,0.3)"
+                  : "1px solid rgba(255,255,255,0.6)",
+                borderRadius: "24px",
+                padding: "30px",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
+                transition: "all 0.3s ease",
+                transform: isProductSelected(product.id) ? "translateY(-4px)" : "translateY(0)",
+                borderLeft: isProductSelected(product.id) ? "4px solid #3182ce" : "none"
+              }}>
+                <div style={{ textAlign: "center", marginBottom: "24px" }}>
+                  <div style={{
+                    width: "128px",
+                    height: "128px",
+                    margin: "0 auto",
+                    overflow: "hidden",
+                    borderRadius: "16px",
+                    border: "2px solid #e2e8f0"
+                  }}>
+                    <img 
+                      src={product.imageUrl ? `http://localhost:5000${product.imageUrl}` : 'https://via.placeholder.com/128'} 
+                      alt={product.name}
+                      style={{
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "100%",
+                        display: "block"
+                      }}
+                    />
+                  </div>
+                </div>
+                
+                <div style={{ textAlign: "center", marginBottom: "24px" }}>
+                  <h3 style={{
+                    color: "#1a202c",
+                    fontWeight: "700",
+                    fontSize: "1.3rem",
+                    margin: "0 0 12px 0"
+                  }}>{product.name}</h3>
+                  <p style={{
+                    color: "#3182ce",
+                    fontWeight: "800",
+                    fontSize: "1.5rem",
+                    margin: "0 0 8px 0"
+                  }}>Rp{product.price.toLocaleString()}</p>
+                  <p style={{
+                    color: product.stock > 0 ? "#38a169" : "#e53e3e",
+                    fontWeight: "600",
+                    fontSize: "0.9rem",
+                    margin: 0
+                  }}>Stok: {product.stock}</p>
+                </div>
+
+                {isProductSelected(product.id) ? (
+                  <div style={{ textAlign: "center" }}>
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "12px",
+                      marginBottom: "20px"
+                    }}>
                       <button 
-                        className='button is-small'
+                        style={{
+                          background: "rgba(49,130,206,0.1)",
+                          color: "#3182ce",
+                          border: "2px solid rgba(49,130,206,0.3)",
+                          borderRadius: "12px",
+                          padding: "8px 12px",
+                          fontWeight: "600",
+                          fontSize: "14px",
+                          cursor: "pointer",
+                          transition: "all 0.3s ease"
+                        }}
                         onClick={() => handleQuantityChange(product.id, getSelectedQuantity(product.id) - 1)}
                         disabled={getSelectedQuantity(product.id) <= 1}
+                        onMouseEnter={(e) => {
+                          if (getSelectedQuantity(product.id) > 1) {
+                            e.target.style.background = "rgba(49,130,206,0.2)";
+                            e.target.style.transform = "scale(1.1)";
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.background = "rgba(49,130,206,0.1)";
+                          e.target.style.transform = "scale(1)";
+                        }}
                       >
-                        <span className='icon is-small'>
-                          <i className='fas fa-minus'></i>
-                        </span>
+                        ➖
                       </button>
-                    </div>
-                    <div className='control'>
                       <input 
-                        className='input is-small has-text-centered' 
+                        style={{
+                          width: "60px",
+                          padding: "8px",
+                          border: "2px solid #e2e8f0",
+                          borderRadius: "8px",
+                          fontSize: "14px",
+                          textAlign: "center",
+                          fontWeight: "600"
+                        }}
                         type='number' 
                         value={getSelectedQuantity(product.id)}
                         onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value) || 0)}
                         min='1'
                         max={product.stock}
-                        style={{width: '60px'}}
                       />
-                    </div>
-                    <div className='control'>
                       <button 
-                        className='button is-small'
+                        style={{
+                          background: "rgba(49,130,206,0.1)",
+                          color: "#3182ce",
+                          border: "2px solid rgba(49,130,206,0.3)",
+                          borderRadius: "12px",
+                          padding: "8px 12px",
+                          fontWeight: "600",
+                          fontSize: "14px",
+                          cursor: "pointer",
+                          transition: "all 0.3s ease"
+                        }}
                         onClick={() => handleQuantityChange(product.id, getSelectedQuantity(product.id) + 1)}
                         disabled={getSelectedQuantity(product.id) >= product.stock}
+                        onMouseEnter={(e) => {
+                          if (getSelectedQuantity(product.id) < product.stock) {
+                            e.target.style.background = "rgba(49,130,206,0.2)";
+                            e.target.style.transform = "scale(1.1)";
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.background = "rgba(49,130,206,0.1)";
+                          e.target.style.transform = "scale(1)";
+                        }}
                       >
-                        <span className='icon is-small'>
-                          <i className='fas fa-plus'></i>
-                        </span>
+                        ➕
                       </button>
                     </div>
+                    <button 
+                      style={{
+                        background: "rgba(229,62,62,0.1)",
+                        color: "#e53e3e",
+                        border: "2px solid rgba(229,62,62,0.3)",
+                        borderRadius: "20px",
+                        padding: "12px 24px",
+                        fontWeight: "600",
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        transition: "all 0.3s ease",
+                        width: "100%"
+                      }}
+                      onClick={() => removeFromCart(product.id)}
+                      onMouseEnter={(e) => {
+                        e.target.style.background = "rgba(229,62,62,0.2)";
+                        e.target.style.transform = "translateY(-2px)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.background = "rgba(229,62,62,0.1)";
+                        e.target.style.transform = "translateY(0)";
+                      }}
+                    >
+                      🗑️ Hapus dari Keranjang
+                    </button>
                   </div>
-                  <button 
-                    className='button is-danger is-small'
-                    onClick={() => removeFromCart(product.id)}
-                  >
-                    Hapus dari Keranjang
-                  </button>
-                </div>
-              ) : (
-                <div className='has-text-centered'>
-                  <button 
-                    className='button is-primary'
-                    onClick={() => addToCart(product)}
-                    disabled={product.stock <= 0}
-                  >
-                    {product.stock > 0 ? 'Tambah ke Keranjang' : 'Stok Habis'}
-                  </button>
-                </div>
-              )}
+                ) : (
+                  <div style={{ textAlign: "center" }}>
+                    <button 
+                      style={{
+                        background: product.stock > 0 
+                          ? "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)"
+                          : "linear-gradient(135deg, #a0aec0 0%, #718096 100%)",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "20px",
+                        padding: "16px 32px",
+                        fontWeight: "700",
+                        fontSize: "16px",
+                        cursor: product.stock > 0 ? "pointer" : "not-allowed",
+                        transition: "all 0.3s ease",
+                        boxShadow: product.stock > 0 
+                          ? "0 8px 24px rgba(49,130,206,0.3)"
+                          : "0 4px 16px rgba(160,174,192,0.3)",
+                        width: "100%",
+                        opacity: product.stock > 0 ? 1 : 0.6
+                      }}
+                      onClick={() => addToCart(product)}
+                      disabled={product.stock <= 0}
+                      onMouseEnter={(e) => {
+                        if (product.stock > 0) {
+                          e.target.style.transform = "translateY(-2px)";
+                          e.target.style.boxShadow = "0 12px 32px rgba(49,130,206,0.4)";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = "translateY(0)";
+                        e.target.style.boxShadow = product.stock > 0 
+                          ? "0 8px 24px rgba(49,130,206,0.3)"
+                          : "0 4px 16px rgba(160,174,192,0.3)";
+                      }}
+                    >
+                      {product.stock > 0 ? '🛒 Tambah ke Keranjang' : '❌ Stok Habis'}
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Empty State */}
-      {Object.keys(selectedProducts).length === 0 && (
-        <div className='has-text-centered mt-6'>
-          <div className='icon is-large has-text-grey-light mb-3'>
-            <i className='fas fa-shopping-cart fa-3x'></i>
-          </div>
-          <p className='subtitle is-5 has-text-grey'>Belum ada produk yang dipilih</p>
-          <p className='has-text-grey-light'>Pilih produk di atas untuk menambahkan ke keranjang</p>
+          ))}
         </div>
-      )}
+
+        {/* Empty State */}
+        {Object.keys(selectedProducts).length === 0 && (
+          <div style={{ textAlign: "center", padding: "60px 20px" }}>
+            <div style={{
+              fontSize: "80px",
+              color: "#cbd5e0",
+              marginBottom: "20px"
+            }}>
+              🛒
+            </div>
+            <p style={{
+              color: "#4a5568",
+              fontSize: "1.2rem",
+              fontWeight: "600",
+              marginBottom: "12px"
+            }}>Belum ada produk yang dipilih</p>
+            <p style={{
+              color: "#a0aec0",
+              fontSize: "1rem"
+            }}>Pilih produk di atas untuk menambahkan ke keranjang</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
