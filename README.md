@@ -41,6 +41,8 @@ Aplikasi ini adalah simulasi mesin vending machine yang memungkinkan pengguna un
 - **React Router DOM** - Routing dan navigasi
 - **Axios** - HTTP client untuk API calls
 - **JWT Decode** - Handling authentication tokens
+- **react-hook-form** - Form handling yang efisien
+- **Yup** - Validasi schema
 
 ### **Styling & UI**
 - **Inline CSS** - Custom styling dengan modern design
@@ -52,11 +54,11 @@ Aplikasi ini adalah simulasi mesin vending machine yang memungkinkan pengguna un
 - **Node.js** - Runtime environment
 - **Express.js** - Web framework
 - **MySQL** - Database management
+- **Sequelize ORM** - Object-Relational Mapping
 - **Multer** - File upload handling
 - **JWT** - Authentication system
 
 ### **Development Tools**
-- **JSON Server** - Mock API untuk development
 - **CORS** - Cross-origin resource sharing
 - **Nodemon** - Auto-restart development server
 
@@ -88,82 +90,29 @@ npm install
 1. Install MySQL di komputer Anda
 2. Buat database baru:
 ```sql
-CREATE DATABASE vending_machine;
-USE vending_machine;
+CREATE DATABASE students;
+USE students;
 ```
 
 #### **Database Configuration**
 Update file `backend/config/Database.js`:
 ```javascript
-const mysql = require('mysql');
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'your_username',
-    password: 'your_password',
-    database: 'vending_machine'
+import { Sequelize } from "sequelize";
+
+const db = new Sequelize('students', 'your_username', 'your_password', {
+    host: "localhost",
+    dialect: "mysql"
 });
+
+export default db;
 ```
 
-### **4. Setup JSON Server (Development)**
-
-#### **Install JSON Server**
-```bash
-npm install -g json-server
+### **4. Setup Environment Variables**
+Buat file `.env` di folder `backend`:
+```env
+ACCESS_TOKEN_SECRET=your_access_token_secret_here
+REFRESH_TOKEN_SECRET=your_refresh_token_secret_here
 ```
-
-#### **Buat file db.json**
-```json
-{
-  "products": [
-    {
-      "id": 1,
-      "name": "Coca Cola",
-      "price": 5000,
-      "stock": 10,
-      "imageUrl": "/uploads/coca-cola.jpg"
-    }
-  ],
-  "transactions": [
-    {
-      "id": 1,
-      "productId": 1,
-      "productName": "Coca Cola",
-      "quantity": 1,
-      "totalPrice": 5000,
-      "paidAmount": 10000,
-      "changeAmount": 5000,
-      "createdAt": "2025-01-20T10:00:00.000Z"
-    }
-  ],
-  "users": [
-    {
-      "id": 1,
-      "name": "Admin",
-      "email": "admin@vending.com",
-      "password": "hashed_password"
-    }
-  ]
-}
-```
-
-#### **Jalankan JSON Server**
-```bash
-json-server --watch db.json --port 5000
-```
-
-**Routes yang tersedia:**
-- `GET /products` - Ambil semua produk
-- `POST /products` - Tambah produk baru
-- `PUT /products/:id` - Update produk
-- `DELETE /products/:id` - Hapus produk
-- `GET /transactions` - Ambil semua transaksi
-- `POST /transactions` - Tambah transaksi baru
-- `DELETE /transactions/:id` - Hapus transaksi
-- `GET /users` - Ambil semua user
-- `POST /users` - Register user baru
-- `POST /login` - Login user
-- `POST /logout` - Logout user
-- `GET /token` - Refresh token
 
 ### **5. Menjalankan Aplikasi**
 
@@ -236,6 +185,66 @@ CREATE TABLE users (
 );
 ```
 
+## 🔧 API Endpoints
+
+### **Public Endpoints**
+- `GET /products` - Daftar produk
+- `POST /purchase` - Pembelian produk
+
+### **Admin Endpoints (Protected)**
+- `GET /transactions` - Riwayat transaksi
+- `POST /products` - Tambah produk
+- `PUT /products/:id` - Update produk
+- `DELETE /products/:id` - Hapus produk
+
+### **Auth Endpoints**
+- `POST /users` - Register admin
+- `POST /login` - Login admin
+- `GET /token` - Refresh token
+- `DELETE /logout` - Logout
+
+## 📁 Struktur Project
+
+```
+vending-machine-app/
+├── backend/
+│   ├── config/
+│   │   └── Database.js
+│   ├── controllers/
+│   │   ├── Users.js
+│   │   ├── Products.js
+│   │   └── RefreshToken.js
+│   ├── middleware/
+│   │   └── VerifyToken.js
+│   ├── models/
+│   │   ├── UserModel.js
+│   │   ├── ProductModel.js
+│   │   └── TransactionModel.js
+│   ├── routes/
+│   │   └── index.js
+│   ├── uploads/
+│   ├── index.js
+│   └── package.json
+├── frontend/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── VendingPublic.js
+│   │   │   ├── ProductSelection.js
+│   │   │   ├── Checkout.js
+│   │   │   ├── Dashboard.js
+│   │   │   ├── History.js
+│   │   │   ├── Login.js
+│   │   │   ├── Register.js
+│   │   │   └── Navbar.js
+│   │   ├── App.js
+│   │   ├── index.js
+│   │   └── index.css
+│   └── package.json
+└── README.md
+```
+
 ## 🎨 Screenshots
 
 ### **User Interface**
@@ -258,19 +267,21 @@ CREATE TABLE users (
 - State management menggunakan React Hooks
 - API calls menggunakan Axios dengan interceptors
 - File upload support untuk gambar produk
+- Form handling menggunakan react-hook-form + yup
 
 ### **Security Features**
 - JWT token authentication
-- Password hashing
+- Password hashing dengan bcrypt
 - Protected admin routes
-- Input validation
-- SQL injection prevention
+- Input validation dengan Yup
+- SQL injection prevention dengan Sequelize
 
 ### **Performance Optimizations**
 - Lazy loading untuk gambar
 - Optimized API calls
 - Efficient state management
 - Responsive image handling
+- Auto-seed produk default
 
 ## 🤝 Kontribusi
 
