@@ -93,7 +93,7 @@ Update file `backend/config/Database.js`:
 ```javascript
 import { Sequelize } from "sequelize";
 
-const db = new Sequelize('students', 'your_username', 'your_password', {
+const db = new Sequelize('your_database', 'your_username', 'your_password', {
     host: "localhost",
     dialect: "mysql"
 });
@@ -310,18 +310,3 @@ Aplikasi otomatis akan membuat 5 produk default saat pertama kali dijalankan:
 4. Push ke branch (`git push origin feature/AmazingFeature`)
 5. Buat Pull Request
 
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-## 📞 Kontak
-
-- **Email**: your.email@example.com
-- **GitHub**: [@username](https://github.com/username)
-- **LinkedIn**: [Your Name](https://linkedin.com/in/yourprofile)
-
----
-
-⭐ **Star repository ini jika bermanfaat!**
-
-**Note: Paling lambat hasil (repositori) dikirim pada tanggal 24 Agustus 2025.**
