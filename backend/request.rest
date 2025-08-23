@@ -1,0 +1,32 @@
+GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJEaWRpayBWaW5hc3R1IiwiZW1haWwiOiJkdnZpbmFzMkBnbWFpbC5jb20iLCJpYXQiOjE3NTU4MzEzMjUsImV4cCI6MTc1NTgzMTM0MH0.JmYuSDSd-lJHLQAti2RqqvRTNDaIlxEKYd7hdEBKXoQ
+
+
+###
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name": "Didik Vinastu",
+    "email": "dvvinas2@gmail.com",
+    "password": "123456",
+    "confPassword": "123456"
+}
+
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "dvvinas2@gmail.com",
+    "password": "123456"
+}
+
+
+###
+GET http://localhost:5000/token
+
+
+###
+DELETE http://localhost:5000/logout
