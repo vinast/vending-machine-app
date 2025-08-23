@@ -1,64 +1,60 @@
-# 🚀 Vending Machine App
+# 🚀 Frontend Developer Test – Vending Machine App
 
 Aplikasi vending machine interaktif yang mensimulasikan mesin penjual otomatis dengan fitur lengkap untuk user dan admin panel.
 
-## 🎯 Deskripsi Aplikasi
+## 🎯 Deskripsi Umum
 
-Aplikasi ini adalah simulasi mesin vending machine yang memungkinkan pengguna untuk:
-- 🛒 **Memilih produk** dari berbagai makanan dan minuman
-- 💰 **Memasukkan uang** dengan berbagai pecahan
-- 🛍️ **Melakukan pembelian** dengan validasi real-time
-- 📊 **Melihat riwayat transaksi** 
-- ⚙️ **Mengelola produk** melalui admin panel
+Buatlah sebuah aplikasi vending machine menggunakan ReactJS yang dapat mensimulasikan mesin penjual otomatis. Aplikasi ini harus dinamis, interaktif, serta mampu menyimpan dan memproses data dari API menggunakan MySQL database dengan Sequelize ORM.
 
-## ✨ Fitur Utama
+## 📦 Fitur Wajib
 
-### 🛒 **User Interface**
-- **Tampilan Mesin Vending**: Interface yang menarik dan user-friendly
-- **Katalog Produk**: Menampilkan gambar, nama, harga, dan stok produk
-- **Simulasi Uang Masuk**: Support pecahan Rp2.000, Rp5.000, Rp10.000, Rp20.000, Rp50.000
-- **Real-time Total**: Update otomatis total uang yang dimasukkan
-- **Validasi Pembelian**: Cek stok dan kecukupan uang secara real-time
-- **Uang Kembalian**: Kalkulasi otomatis kembalian setelah pembelian
+### • Tampilan Mesin Vending
+- Menampilkan 5 makanan atau minuman
+- Tiap item menampilkan: Gambar produk, Nama, Harga, Jumlah stok
 
-### ⚙️ **Admin Panel**
-- **Dashboard**: Overview produk dan transaksi
-- **CRUD Produk**: Tambah, edit, hapus, dan lihat produk
-- **Upload Gambar**: Support upload gambar produk
-- **Manajemen Stok**: Update stok produk secara real-time
-- **Riwayat Transaksi**: Lihat semua transaksi yang dilakukan
+### • Simulasi Uang Masuk
+- Pengguna bisa memasukkan uang dengan pecahan: Rp2.000, Rp5.000, Rp10.000, Rp20.000, Rp50.000
+- Total uang yang dimasukkan ditampilkan secara real-time
+- Tombol untuk mengembalikan uang
 
-### 📊 **Sistem Transaksi**
-- **History Transaksi**: Simpan setiap pembelian ke database
-- **Validasi Real-time**: Cek stok dan uang sebelum pembelian
-- **Auto Update**: Stok dan data terupdate otomatis
-- **Error Handling**: Pesan error yang informatif
+### • Pembelian Produk
+- Klik tombol "Beli" untuk produk yang tersedia
+- Validasi jika uang tidak cukup atau stok habis
+- Setelah pembelian, kurangi stok dan tampilkan uang kembalian
 
-## 🛠️ Teknologi yang Digunakan
+### • Admin Panel Sederhana (Opsional)
+- Route /admin untuk mengatur: tambah, ubah, hapus makanan (CRUD)
+- Gunakan react-hook-form + yup untuk validasi (nilai plus)
 
-### **Frontend**
-- **React.js** - Library JavaScript untuk UI
+### • History Transaksi
+- Setiap pembelian disimpan ke MySQL database
+- Tampilkan riwayat pembelian di halaman /admin/history
+
+## ⚙️ Teknologi & Tools
+
+### Frontend
+- **React JS** - Library JavaScript untuk UI
 - **React Router DOM** - Routing dan navigasi
 - **Axios** - HTTP client untuk API calls
 - **JWT Decode** - Handling authentication tokens
 
-### **Styling & UI**
+### Form Handling
+- **react-hook-form** - Form handling yang efisien (nilai plus)
+- **Yup** - Validasi schema (nilai plus)
+
+### UI Styling
 - **Inline CSS** - Custom styling dengan modern design
 - **CSS Gradients** - Background dan button styling
 - **Responsive Design** - Mobile-friendly interface
 - **Modern UI/UX** - Card design, shadows, dan animations
 
-### **Backend & Database**
+### Backend & Database
 - **Node.js** - Runtime environment
 - **Express.js** - Web framework
 - **MySQL** - Database management
+- **Sequelize ORM** - Object-Relational Mapping
 - **Multer** - File upload handling
 - **JWT** - Authentication system
-
-### **Development Tools**
-- **JSON Server** - Mock API untuk development
-- **CORS** - Cross-origin resource sharing
-- **Nodemon** - Auto-restart development server
 
 ## 🚀 Cara Instalasi & Menjalankan
 
@@ -88,82 +84,29 @@ npm install
 1. Install MySQL di komputer Anda
 2. Buat database baru:
 ```sql
-CREATE DATABASE vending_machine;
-USE vending_machine;
+CREATE DATABASE students;
+USE students;
 ```
 
 #### **Database Configuration**
 Update file `backend/config/Database.js`:
 ```javascript
-const mysql = require('mysql');
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'your_username',
-    password: 'your_password',
-    database: 'vending_machine'
+import { Sequelize } from "sequelize";
+
+const db = new Sequelize('students', 'your_username', 'your_password', {
+    host: "localhost",
+    dialect: "mysql"
 });
+
+export default db;
 ```
 
-### **4. Setup JSON Server (Development)**
-
-#### **Install JSON Server**
-```bash
-npm install -g json-server
+### **4. Setup Environment Variables**
+Buat file `.env` di folder `backend`:
+```env
+ACCESS_TOKEN_SECRET=your_access_token_secret_here
+REFRESH_TOKEN_SECRET=your_refresh_token_secret_here
 ```
-
-#### **Buat file db.json**
-```json
-{
-  "products": [
-    {
-      "id": 1,
-      "name": "Coca Cola",
-      "price": 5000,
-      "stock": 10,
-      "imageUrl": "/uploads/coca-cola.jpg"
-    }
-  ],
-  "transactions": [
-    {
-      "id": 1,
-      "productId": 1,
-      "productName": "Coca Cola",
-      "quantity": 1,
-      "totalPrice": 5000,
-      "paidAmount": 10000,
-      "changeAmount": 5000,
-      "createdAt": "2025-01-20T10:00:00.000Z"
-    }
-  ],
-  "users": [
-    {
-      "id": 1,
-      "name": "Admin",
-      "email": "admin@vending.com",
-      "password": "hashed_password"
-    }
-  ]
-}
-```
-
-#### **Jalankan JSON Server**
-```bash
-json-server --watch db.json --port 5000
-```
-
-**Routes yang tersedia:**
-- `GET /products` - Ambil semua produk
-- `POST /products` - Tambah produk baru
-- `PUT /products/:id` - Update produk
-- `DELETE /products/:id` - Hapus produk
-- `GET /transactions` - Ambil semua transaksi
-- `POST /transactions` - Tambah transaksi baru
-- `DELETE /transactions/:id` - Hapus transaksi
-- `GET /users` - Ambil semua user
-- `POST /users` - Register user baru
-- `POST /login` - Login user
-- `POST /logout` - Logout user
-- `GET /token` - Refresh token
 
 ### **5. Menjalankan Aplikasi**
 
@@ -173,6 +116,11 @@ cd backend
 npm start
 ```
 Server akan berjalan di `http://localhost:5000`
+
+**Note**: Aplikasi akan otomatis:
+- Connect ke database MySQL
+- Create tabel products, transactions, dan users
+- Seed 5 produk default jika tabel kosong
 
 #### **Frontend Development**
 ```bash
@@ -236,6 +184,66 @@ CREATE TABLE users (
 );
 ```
 
+## 🔧 API Endpoints
+
+### **Public Endpoints**
+- `GET /products` - Daftar produk
+- `POST /purchase` - Pembelian produk
+
+### **Admin Endpoints (Protected)**
+- `GET /transactions` - Riwayat transaksi
+- `POST /products` - Tambah produk
+- `PUT /products/:id` - Update produk
+- `DELETE /products/:id` - Hapus produk
+
+### **Auth Endpoints**
+- `POST /users` - Register admin
+- `POST /login` - Login admin
+- `GET /token` - Refresh token
+- `DELETE /logout` - Logout
+
+## 📁 Struktur Project
+
+```
+vending-machine-app/
+├── backend/
+│   ├── config/
+│   │   └── Database.js
+│   ├── controllers/
+│   │   ├── Users.js
+│   │   ├── Products.js
+│   │   └── RefreshToken.js
+│   ├── middleware/
+│   │   └── VerifyToken.js
+│   ├── models/
+│   │   ├── UserModel.js
+│   │   ├── ProductModel.js
+│   │   └── TransactionModel.js
+│   ├── routes/
+│   │   └── index.js
+│   ├── uploads/
+│   ├── index.js
+│   └── package.json
+├── frontend/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── VendingPublic.js
+│   │   │   ├── ProductSelection.js
+│   │   │   ├── Checkout.js
+│   │   │   ├── Dashboard.js
+│   │   │   ├── History.js
+│   │   │   ├── Login.js
+│   │   │   ├── Register.js
+│   │   │   └── Navbar.js
+│   │   ├── App.js
+│   │   ├── index.js
+│   │   └── index.css
+│   └── package.json
+└── README.md
+```
+
 ## 🎨 Screenshots
 
 ### **User Interface**
@@ -258,19 +266,41 @@ CREATE TABLE users (
 - State management menggunakan React Hooks
 - API calls menggunakan Axios dengan interceptors
 - File upload support untuk gambar produk
+- Form handling menggunakan react-hook-form + yup (nilai plus)
+- Database menggunakan MySQL dengan Sequelize ORM
 
 ### **Security Features**
 - JWT token authentication
-- Password hashing
+- Password hashing dengan bcrypt
 - Protected admin routes
-- Input validation
-- SQL injection prevention
+- Input validation dengan Yup
+- SQL injection prevention dengan Sequelize
 
 ### **Performance Optimizations**
 - Lazy loading untuk gambar
 - Optimized API calls
 - Efficient state management
 - Responsive image handling
+- Auto-seed produk default
+
+### **Auto-Seed Products**
+Aplikasi otomatis akan membuat 5 produk default saat pertama kali dijalankan:
+1. Air Mineral - Rp2.000 (Stok: 10)
+2. Teh Botol - Rp5.000 (Stok: 8)
+3. Kopi Kaleng - Rp10.000 (Stok: 6)
+4. Keripik - Rp20.000 (Stok: 5)
+5. Cokelat - Rp50.000 (Stok: 4)
+
+## 🌟 Nilai Tambah yang Sudah Diimplementasi
+
+- ✅ **react-hook-form + yup** - Form handling dan validasi
+- ✅ **Fitur Admin** - Panel admin lengkap dengan CRUD
+- ✅ **Riwayat transaksi** - Simpan dan tampilkan history
+- ✅ **Responsif & Mobile Friendly** - Interface mobile-friendly
+- ✅ **MySQL Database** - Database production dengan Sequelize ORM
+- ✅ **File Upload** - Upload gambar produk
+- ✅ **JWT Authentication** - Secure login system
+- ✅ **Auto Token Refresh** - Session management yang robust
 
 ## 🤝 Kontribusi
 
@@ -293,3 +323,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 ⭐ **Star repository ini jika bermanfaat!**
+
+**Note: Paling lambat hasil (repositori) dikirim pada tanggal 24 Agustus 2025.**
