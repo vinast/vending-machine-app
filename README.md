@@ -11,7 +11,7 @@ Aplikasi vending machine menggunakan ReactJS yang dapat mensimulasikan mesin pen
 ### • Tampilan Mesin Vending
 - Menampilkan produk makanan dan minuman
 - Tiap item menampilkan: Gambar produk, Nama, Harga, Jumlah stok
-- Interface yang menarik dan responsif
+- Interface yang menarik dan responsif dengan carousel
 
 ### • Simulasi Uang Masuk
 - Pengguna bisa memasukkan uang dengan pecahan: Rp2.000, Rp5.000, Rp10.000, Rp20.000, Rp50.000
@@ -44,14 +44,10 @@ Aplikasi vending machine menggunakan ReactJS yang dapat mensimulasikan mesin pen
 - **Axios 1.11.0** - HTTP client untuk API calls
 - **JWT Decode 4.0.0** - Handling authentication tokens
 
-### Form Handling
-- **react-hook-form 7.53.0** - Form handling yang efisien
-- **Yup 1.4.0** - Validasi schema
-
-### UI Styling
-- **Tailwind CSS 4.1.12** - Utility-first CSS framework
-- **Bulma 1.0.4** - CSS framework tambahan
-- **React Slick** - Carousel untuk gambar produk
+### UI Components & Styling
+- **Bulma CSS 1.0.4** - CSS framework untuk styling komponen
+- **React Slick 0.31.0** - Carousel component untuk gambar produk
+- **Inline CSS** - Custom styling dengan modern design
 - **Responsive Design** - Mobile-friendly interface
 - **Modern UI/UX** - Card design, shadows, dan animations
 
@@ -93,8 +89,8 @@ npm install
 1. Install MySQL di komputer Anda
 2. Buat database baru:
 ```sql
-CREATE DATABASE students;
-USE students;
+CREATE DATABASE your_database;
+USE your_database;
 ```
 
 #### **Database Configuration**
@@ -260,7 +256,7 @@ vending-machine-app/
 
 ### **User Interface**
 <!-- Tambahkan screenshot di sini -->
-- **Halaman Utama (VendingPublic)**: Tampilan utama dengan produk vending machine
+- **Halaman Utama (VendingPublic)**: Tampilan utama dengan produk vending machine dan carousel
 - **Pemilihan Produk (ProductSelection)**: Halaman pilihan produk dengan detail
 - **Checkout**: Halaman pembayaran dan input uang
 
@@ -280,16 +276,14 @@ vending-machine-app/
 
 ### **Fitur yang Sudah Diimplementasi**
 - ✅ **React.js dengan modern JavaScript (ES6+)**
-- ✅ **Styling menggunakan Tailwind CSS + Bulma**
+- ✅ **Styling menggunakan Bulma CSS + Inline CSS**
+- ✅ **Carousel dengan React Slick**
 - ✅ **State management menggunakan React Hooks**
 - ✅ **API calls menggunakan Axios dengan interceptors**
 - ✅ **File upload support untuk gambar produk**
-- ✅ **Form handling menggunakan react-hook-form + yup**
 - ✅ **Database menggunakan MySQL dengan Sequelize ORM**
 - ✅ **JWT token authentication dengan bcrypt**
 - ✅ **Protected admin routes**
-- ✅ **Input validation dengan Yup**
-- ✅ **SQL injection prevention dengan Sequelize**
 - ✅ **Auto-seed produk default**
 - ✅ **Riwayat transaksi lengkap**
 - ✅ **CRUD produk dengan upload gambar**
@@ -299,7 +293,6 @@ vending-machine-app/
 - JWT token authentication
 - Password hashing dengan bcrypt
 - Protected admin routes
-- Input validation dengan Yup
 - SQL injection prevention dengan Sequelize
 - File upload validation (hanya gambar)
 
@@ -316,25 +309,11 @@ Aplikasi otomatis akan membuat produk default saat pertama kali dijalankan denga
 ## 🌟 Fitur Unggulan
 
 - **Interface Modern**: Design yang menarik dan user-friendly
+- **Carousel Produk**: Tampilan produk yang menarik dengan React Slick
 - **Upload Gambar**: Fitur upload dan preview gambar produk
 - **Real-time Updates**: Update stok dan transaksi secara real-time
 - **Mobile First**: Design yang optimal untuk perangkat mobile
 - **Admin Panel Lengkap**: Manajemen produk dan transaksi yang komprehensif
 - **Security**: Sistem autentikasi yang aman dan robust
 
-## 🤝 Kontribusi
-
-1. Fork repository
-2. Buat feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push ke branch (`git push origin feature/AmazingFeature`)
-5. Buat Pull Request
-
-## 📞 Support
-
-Jika ada pertanyaan atau masalah, silakan buat issue di repository ini.
-
----
-
-**Dibuat dengan ❤️ menggunakan React.js, Node.js, dan MySQL**
 
