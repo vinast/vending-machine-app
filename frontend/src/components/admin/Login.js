@@ -28,33 +28,6 @@ const Login = () => {
       <div className="container" style={{ paddingTop: "80px" }}>
         <div className="columns is-centered">
           <div className="column is-4-desktop">
-            <div style={{ textAlign: "center", marginBottom: "40px" }}>
-              <div style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "12px",
-                background: "rgba(49,130,206,0.1)",
-                padding: "12px 24px",
-                borderRadius: "25px",
-                marginBottom: "20px"
-              }}>
-                <span style={{ fontSize: "20px" }}>🔐</span>
-                <span style={{
-                  fontSize: "14px",
-                  fontWeight: "600",
-                  color: "#3182ce"
-                }}>ADMIN LOGIN</span>
-              </div>
-              <p style={{ 
-                color: "#4a5568",
-                fontSize: "1.1rem",
-                maxWidth: "400px",
-                margin: "0 auto"
-              }}>
-                Vending Machine Management System
-              </p>
-            </div>
-            
             <div style={{
               background: "rgba(255,255,255,0.9)",
               backdropFilter: "blur(20px)",
@@ -84,6 +57,23 @@ const Login = () => {
               )}
 
               <form onSubmit={Auth}>
+                <div style={{ textAlign: "center" }}>
+              <div style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "12px",
+                background: "rgba(49,130,206,0.1)",
+                padding: "12px 24px",
+                borderRadius: "25px",
+              }}>
+                <span style={{ fontSize: "20px" }}>👤</span>
+                <span style={{
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  color: "#3182ce"
+                }}>LOGIN ADMIN</span>
+              </div>
+            </div>
                 <div style={{ marginBottom: "24px" }}>
                   <label style={{
                     color: "#1a202c",
@@ -91,7 +81,7 @@ const Login = () => {
                     fontSize: "1rem",
                     marginBottom: "8px",
                     display: "block"
-                  }}>Email atau Username</label>
+                  }}>Email</label>
                   <input 
                     type="text" 
                     style={{

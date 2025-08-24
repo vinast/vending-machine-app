@@ -15,5 +15,3 @@ const Transaction = db.define(
 );
 
 export default Transaction;
-
-

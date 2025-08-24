@@ -7,7 +7,30 @@ import "slick-carousel/slick/slick-theme.css";
 
 const VendingPublic = () => {
   const [products, setProducts] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const run = async () => {
@@ -41,7 +64,7 @@ const VendingPublic = () => {
         background: "rgba(255,255,255,0.95)",
         backdropFilter: "blur(20px)",
         borderBottom: "1px solid rgba(0,0,0,0.05)",
-        padding: "20px 0",
+        padding: isMobile ? "15px 0" : "20px 0",
         position: "sticky",
         top: 0,
         zIndex: 1000,
@@ -51,7 +74,9 @@ const VendingPublic = () => {
           <div style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
+            flexDirection: isMobile ? "column" : "row",
+            gap: isMobile ? "15px" : "0"
           }}>
             {/* Modern Logo */}
             <div style={{
@@ -60,8 +85,8 @@ const VendingPublic = () => {
               gap: "12px"
             }}>
               <div style={{
-                width: "48px",
-                height: "48px",
+                width: isMobile ? "40px" : "48px",
+                height: isMobile ? "40px" : "48px",
                 borderRadius: "12px",
                 display: "flex",
                 alignItems: "center",
@@ -79,7 +104,7 @@ const VendingPublic = () => {
               </div>
               <div>
                 <h1 style={{
-                  fontSize: "24px",
+                  fontSize: isMobile ? "20px" : "24px",
                   fontWeight: "800",
                   margin: 0,
                   background: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)",
@@ -89,7 +114,7 @@ const VendingPublic = () => {
                   SmartVend
                 </h1>
                 <p style={{
-                  fontSize: "12px",
+                  fontSize: isMobile ? "10px" : "12px",
                   color: "#4a5568",
                   margin: 0,
                   fontWeight: "500"
@@ -99,27 +124,32 @@ const VendingPublic = () => {
               </div>
             </div>
 
-
             {/* Navigation Menu */}
             <nav style={{
               display: "flex",
-              gap: "32px",
-              alignItems: "center"
+              gap: isMobile ? "20px" : "32px",
+              alignItems: "center",
+              flexWrap: isMobile ? "wrap" : "nowrap",
+              justifyContent: isMobile ? "center" : "flex-end"
             }}>
-              <a href="#home" style={{
-                color: "#4a5568",
-                textDecoration: "none",
-                fontWeight: "600",
-                fontSize: "16px",
-                transition: "color 0.3s ease"
-              }}>Beranda</a>
-              <a href="#about" style={{
-                color: "#4a5568",
-                textDecoration: "none",
-                fontWeight: "600",
-                fontSize: "16px",
-                transition: "color 0.3s ease"
-              }}>Tentang</a>
+              {!isMobile && (
+                <>
+                  <a href="#home" style={{
+                    color: "#4a5568",
+                    textDecoration: "none",
+                    fontWeight: "600",
+                    fontSize: "16px",
+                    transition: "color 0.3s ease"
+                  }}>Beranda</a>
+                  <a href="#about" style={{
+                    color: "#4a5568",
+                    textDecoration: "none",
+                    fontWeight: "600",
+                    fontSize: "16px",
+                    transition: "color 0.3s ease"
+                  }}>Tentang</a>
+                </>
+              )}
               <button
                 className="button"
                 style={{
@@ -127,12 +157,13 @@ const VendingPublic = () => {
                   color: "white",
                   border: "none",
                   borderRadius: "25px",
-                  padding: "12px 24px",
+                  padding: isMobile ? "10px 20px" : "12px 24px",
                   fontWeight: "600",
-                  fontSize: "14px",
+                  fontSize: isMobile ? "12px" : "14px",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
-                  boxShadow: "0 4px 16px rgba(49,130,206,0.3)"
+                  boxShadow: "0 4px 16px rgba(49,130,206,0.3)",
+                  width: isMobile ? "100%" : "auto"
                 }}
                 onClick={goToProductSelection}
               >
@@ -144,7 +175,7 @@ const VendingPublic = () => {
       </header>
 
       {/* Hero Carousel */}
-      <section id="home" className="hero is-fullheight" style={{ position: "relative", paddingTop: "40px" }}>
+      <section id="home" className="hero is-fullheight" style={{ position: "relative", paddingTop: isMobile ? "20px" : "40px" }}>
         <Slider {...settings}>
           {[
             {
@@ -172,10 +203,10 @@ const VendingPublic = () => {
                 alt={slide.title}
                 style={{
                   width: "100%",
-                  height: "80vh",
+                  height: isMobile ? "60vh" : "80vh",
                   objectFit: "cover",
-                  borderRadius: "20px",
-                  margin: "0 20px"
+                  borderRadius: isMobile ? "15px" : "20px",
+                  margin: isMobile ? "0 10px" : "0 20px"
                 }}
                 onError={(e) => {
                   e.target.src = "https://images.unsplash.com/photo-1607082349566-1873428f2a3e?q=80&w=1600&h=900&fit=crop";
@@ -185,8 +216,8 @@ const VendingPublic = () => {
               {/* Modern Badge */}
               <div style={{
                 position: "absolute",
-                top: "40px",
-                left: "40px",
+                top: isMobile ? "20px" : "40px",
+                left: isMobile ? "20px" : "40px",
                 background: "rgba(255,255,255,0.95)",
                 backdropFilter: "blur(20px)",
                 padding: "8px 16px",
@@ -195,7 +226,7 @@ const VendingPublic = () => {
                 boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
               }}>
                 <span style={{
-                  fontSize: "14px",
+                  fontSize: isMobile ? "12px" : "14px",
                   fontWeight: "600",
                   color: "#3182ce"
                 }}>{slide.badge}</span>
@@ -208,17 +239,17 @@ const VendingPublic = () => {
                   top: 0,
                   left: 0,
                   width: "100%",
-                  height: "80vh",
+                  height: isMobile ? "60vh" : "80vh",
                   background: "linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 100%)",
-                  borderRadius: "20px",
-                  margin: "0 20px",
+                  borderRadius: isMobile ? "15px" : "20px",
+                  margin: isMobile ? "0 10px" : "0 20px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
                   color: "white",
                   textAlign: "center",
-                  padding: "40px",
+                  padding: isMobile ? "20px" : "40px",
                 }}
               >
                 <h1
@@ -228,7 +259,7 @@ const VendingPublic = () => {
                     textShadow: "0 4px 20px rgba(0,0,0,0.8)",
                     fontWeight: "800",
                     marginBottom: "20px",
-                    fontSize: "3.5rem",
+                    fontSize: isMobile ? "2rem" : "3.5rem",
                     lineHeight: "1.2"
                   }}
                 >
@@ -238,7 +269,7 @@ const VendingPublic = () => {
                   color: "rgba(255,255,255,0.9)",
                   textShadow: "0 2px 12px rgba(0,0,0,0.6)",
                   fontWeight: "400",
-                  fontSize: "1.3rem",
+                  fontSize: isMobile ? "1rem" : "1.3rem",
                   maxWidth: "600px",
                   lineHeight: "1.6"
                 }}>
@@ -248,15 +279,16 @@ const VendingPublic = () => {
                   className="button is-large"
                   style={{ 
                     borderRadius: "30px", 
-                    padding: "20px 40px",
-                    fontSize: "1.2rem",
+                    padding: isMobile ? "15px 30px" : "20px 40px",
+                    fontSize: isMobile ? "1rem" : "1.2rem",
                     fontWeight: "700",
                     boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
                     border: "none",
                     background: "linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%)",
                     color: "white",
                     transition: "all 0.3s ease",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    width: isMobile ? "90%" : "auto"
                   }}
                   onClick={goToProductSelection}
                   onMouseEnter={(e) => {
@@ -277,21 +309,21 @@ const VendingPublic = () => {
       </section>
 
       {/* Enhanced Products Section */}
-      <section id="products" className="section" style={{ padding: "80px 0" }}>
+      <section id="products" className="section" style={{ padding: isMobile ? "40px 0" : "80px 0" }}>
         <div className="container">
-          <div style={{ textAlign: "center", marginBottom: "60px" }}>
+          <div style={{ textAlign: "center", marginBottom: isMobile ? "40px" : "60px" }}>
             <div style={{
               display: "inline-flex",
               alignItems: "center",
               gap: "12px",
               background: "rgba(49,130,206,0.1)",
-              padding: "12px 24px",
+              padding: isMobile ? "8px 16px" : "12px 24px",
               borderRadius: "25px",
               marginBottom: "20px"
             }}>
-              <span style={{ fontSize: "20px" }}>✨</span>
+              <span style={{ fontSize: isMobile ? "16px" : "20px" }}>✨</span>
               <span style={{
-                fontSize: "14px",
+                fontSize: isMobile ? "12px" : "14px",
                 fontWeight: "600",
                 color: "#3182ce"
               }}>PRODUK UNGGULAN</span>
@@ -299,14 +331,14 @@ const VendingPublic = () => {
             <h2 className="title is-2" style={{ 
               color: "#1a202c", 
               fontWeight: "800",
-              fontSize: "3rem",
+              fontSize: isMobile ? "2rem" : "3rem",
               marginBottom: "16px"
             }}>
               Pilihan Terbaik
             </h2>
             <p className="subtitle is-5" style={{ 
               color: "#4a5568",
-              fontSize: "1.2rem",
+              fontSize: isMobile ? "1rem" : "1.2rem",
               maxWidth: "600px",
               margin: "0 auto"
             }}>
@@ -315,8 +347,8 @@ const VendingPublic = () => {
           </div>
           
           <div className="columns is-multiline">
-            {products.slice(0, 3).map((product) => (
-              <div onClick={goToProductSelection} key={product.id} className="column is-4">
+            {products.slice(0, isMobile ? 2 : 3).map((product) => (
+              <div onClick={goToProductSelection} key={product.id} className={`column ${isMobile ? 'is-6' : 'is-4'}`}>
                 <div
                   className="box has-text-centered"
                   style={{
@@ -327,20 +359,24 @@ const VendingPublic = () => {
                     boxShadow: "0 20px 60px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8)",
                     transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                     cursor: "pointer",
-                    padding: "30px 25px",
+                    padding: isMobile ? "20px 15px" : "30px 25px",
                     position: "relative",
                     overflow: "hidden",
                     height: "100%"
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-12px) scale(1.03)";
-                    e.currentTarget.style.boxShadow = "0 30px 80px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.9)";
-                    e.currentTarget.style.background = "rgba(255,255,255,0.95)";
+                    if (!isMobile) {
+                      e.currentTarget.style.transform = "translateY(-12px) scale(1.03)";
+                      e.currentTarget.style.boxShadow = "0 30px 80px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.9)";
+                      e.currentTarget.style.background = "rgba(255,255,255,0.95)";
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0) scale(1)";
-                    e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8)";
-                    e.currentTarget.style.background = "rgba(255,255,255,0.8)";
+                    if (!isMobile) {
+                      e.currentTarget.style.transform = "translateY(0) scale(1)";
+                      e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8)";
+                      e.currentTarget.style.background = "rgba(255,255,255,0.8)";
+                    }
                   }}
                 >
                   {/* Product badge */}
@@ -352,7 +388,7 @@ const VendingPublic = () => {
                     color: "white",
                     padding: "6px 12px",
                     borderRadius: "15px",
-                    fontSize: "12px",
+                    fontSize: isMobile ? "10px" : "12px",
                     fontWeight: "600",
                     zIndex: 2
                   }}>
@@ -366,8 +402,8 @@ const VendingPublic = () => {
                       borderRadius: "20px",
                       position: "relative",
                       zIndex: 1,
-                      width: "280px",
-                      height: "280px"
+                      width: isMobile ? "200px" : "280px",
+                      height: isMobile ? "200px" : "280px"
                     }}
                   >
                     <img
@@ -390,7 +426,7 @@ const VendingPublic = () => {
                     <h3 className="title is-5" style={{ 
                       color: "#1a202c", 
                       fontWeight: "700",
-                      fontSize: "1.3rem",
+                      fontSize: isMobile ? "1.1rem" : "1.3rem",
                       marginBottom: "12px"
                     }}>
                       {product.name}
@@ -398,7 +434,7 @@ const VendingPublic = () => {
                     <p className="title is-4" style={{ 
                       color: "#3182ce",
                       fontWeight: "800",
-                      fontSize: "1.8rem",
+                      fontSize: isMobile ? "1.5rem" : "1.8rem",
                       marginBottom: "12px"
                     }}>
                       Rp{product.price.toLocaleString()}
@@ -410,8 +446,8 @@ const VendingPublic = () => {
                       gap: "8px",
                       marginBottom: "16px"
                     }}>
-                      <span style={{ fontSize: "14px", color: "#4a5568" }}>📦</span>
-                      <span style={{ fontSize: "14px", color: "#4a5568", fontWeight: "600" }}>
+                      <span style={{ fontSize: isMobile ? "12px" : "14px", color: "#4a5568" }}>📦</span>
+                      <span style={{ fontSize: isMobile ? "12px" : "14px", color: "#4a5568", fontWeight: "600" }}>
                         Stock: {product.stock}
                       </span>
                     </div>
@@ -426,26 +462,31 @@ const VendingPublic = () => {
               className="button is-outlined is-large"
               style={{ 
                 borderRadius: "30px", 
-                padding: "16px 40px",
-                fontSize: "1.2rem",
+                padding: isMobile ? "12px 30px" : "16px 40px",
+                fontSize: isMobile ? "1rem" : "1.2rem",
                 fontWeight: "700",
                 border: "3px solid #3182ce",
                 color: "#3182ce",
                 background: "rgba(255,255,255,0.9)",
                 backdropFilter: "blur(10px)",
                 transition: "all 0.3s ease",
-                cursor: "pointer"
+                cursor: "pointer",
+                width: isMobile ? "90%" : "auto"
               }}
               onClick={goToProductSelection}
               onMouseEnter={(e) => {
-                e.target.style.background = "#3182ce";
-                e.target.style.color = "white";
-                e.target.style.transform = "translateY(-2px)";
+                if (!isMobile) {
+                  e.target.style.background = "#3182ce";
+                  e.target.style.color = "white";
+                  e.target.style.transform = "translateY(-2px)";
+                }
               }}
               onMouseLeave={(e) => {
-                e.target.style.background = "rgba(255,255,255,0.9)";
-                e.target.style.color = "#3182ce";
-                e.target.style.transform = "translateY(0)";
+                if (!isMobile) {
+                  e.target.style.background = "rgba(255,255,255,0.9)";
+                  e.target.style.color = "#3182ce";
+                  e.target.style.transform = "translateY(0)";
+                }
               }}
             >
               🔍 Lihat Semua Produk
@@ -461,23 +502,23 @@ const VendingPublic = () => {
           background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%)",
           backdropFilter: "blur(20px)",
           borderTop: "1px solid rgba(0,0,0,0.05)",
-          padding: "80px 0"
+          padding: isMobile ? "40px 0" : "80px 0"
         }}
       >
         <div className="container has-text-centered">
-          <div style={{ marginBottom: "60px" }}>
+          <div style={{ marginBottom: isMobile ? "40px" : "60px" }}>
             <div style={{
               display: "inline-flex",
               alignItems: "center",
               gap: "12px",
               background: "rgba(49,130,206,0.1)",
-              padding: "12px 24px",
+              padding: isMobile ? "8px 16px" : "12px 24px",
               borderRadius: "25px",
               marginBottom: "20px"
             }}>
-              <span style={{ fontSize: "20px" }}>🚀</span>
+              <span style={{ fontSize: isMobile ? "16px" : "20px" }}>🚀</span>
               <span style={{
-                fontSize: "14px",
+                fontSize: isMobile ? "12px" : "14px",
                 fontWeight: "600",
                 color: "#3182ce"
               }}>KENAPA PILIH KAMI</span>
@@ -485,13 +526,13 @@ const VendingPublic = () => {
             <h2 className="title is-2 mb-4" style={{ 
               color: "#1a202c", 
               fontWeight: "800",
-              fontSize: "3rem"
+              fontSize: isMobile ? "2rem" : "3rem"
             }}>
               Teknologi Pintar, Pengalaman Lebih Baik
             </h2>
             <p className="subtitle is-5 mb-5" style={{ 
               color: "#4a5568",
-              fontSize: "1.2rem",
+              fontSize: isMobile ? "1rem" : "1.2rem",
               maxWidth: "700px",
               margin: "0 auto"
             }}>
@@ -526,33 +567,38 @@ const VendingPublic = () => {
                 color: "#38a169"
               },
             ].map((item, i) => (
-              <div key={i} className="column is-3">
+              <div key={i} className={`column ${isMobile ? 'is-6' : 'is-3'}`}>
                 <div
                   style={{
                     backdropFilter: "blur(25px)",
                     background: "rgba(255,255,255,0.8)",
                     border: "1px solid rgba(255,255,255,0.6)",
-                    padding: "40px 30px",
+                    padding: isMobile ? "25px 20px" : "40px 30px",
                     borderRadius: "28px",
                     boxShadow: "0 20px 60px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)",
                     transition: "all 0.3s ease",
                     height: "100%",
                     position: "relative",
                     overflow: "hidden",
+                    marginBottom: isMobile ? "20px" : "0"
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-8px)";
-                    e.currentTarget.style.boxShadow = "0 30px 80px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9)";
-                    e.currentTarget.style.background = "rgba(255,255,255,0.95)";
+                    if (!isMobile) {
+                      e.currentTarget.style.transform = "translateY(-8px)";
+                      e.currentTarget.style.boxShadow = "0 30px 80px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9)";
+                      e.currentTarget.style.background = "rgba(255,255,255,0.95)";
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)";
-                    e.currentTarget.style.background = "rgba(255,255,255,0.8)";
+                    if (!isMobile) {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "0 20px 60px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)";
+                      e.currentTarget.style.background = "rgba(255,255,255,0.8)";
+                    }
                   }}
                 >
                   <div style={{
-                    fontSize: "3rem",
+                    fontSize: isMobile ? "2.5rem" : "3rem",
                     marginBottom: "20px",
                     filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.1))"
                   }}>
@@ -562,14 +608,14 @@ const VendingPublic = () => {
                     color: "#1a202c", 
                     fontWeight: "700",
                     marginBottom: "16px",
-                    fontSize: "1.4rem"
+                    fontSize: isMobile ? "1.2rem" : "1.4rem"
                   }}>
                     {item.title}
                   </h3>
                   <p className="subtitle is-6" style={{ 
                     color: "#4a5568",
                     lineHeight: "1.7",
-                    fontSize: "1rem"
+                    fontSize: isMobile ? "0.9rem" : "1rem"
                   }}>
                     {item.desc}
                   </p>
@@ -584,16 +630,17 @@ const VendingPublic = () => {
       <footer className="section" style={{ 
         background: "linear-gradient(135deg, #1a202c 0%, #2d3748 100%)",
         color: "white",
-        padding: "60px 0 30px 0"
+        padding: isMobile ? "40px 0 20px 0" : "60px 0 30px 0"
       }}>
         <div className="container">
           <div className="columns is-multiline">
-            <div className="column is-4">
+            <div className={`column ${isMobile ? 'is-12' : 'is-4'}`}>
               <div style={{
                 display: "flex",
                 alignItems: "center",
                 gap: "12px",
-                marginBottom: "20px"
+                marginBottom: "20px",
+                justifyContent: isMobile ? "center" : "flex-start"
               }}>
                 <div style={{
                   width: "40px",
@@ -602,7 +649,7 @@ const VendingPublic = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  overflow: "hidden" // supaya gambar ikut rounded
+                  overflow: "hidden"
                 }}>
                   <img 
                     src="/logo.png" 
@@ -636,20 +683,26 @@ const VendingPublic = () => {
               <p style={{
                 color: "#a0aec0",
                 lineHeight: "1.6",
-                marginBottom: "20px"
+                marginBottom: "20px",
+                textAlign: isMobile ? "center" : "left"
               }}>
                 Merevolusi pengalaman vending dengan teknologi pintar dan produk premium.
               </p>
             </div>
             
-            <div className="column is-2">
+            <div className={`column ${isMobile ? 'is-6' : 'is-2'}`}>
               <h4 style={{
                 color: "white",
                 fontWeight: "700",
                 marginBottom: "20px",
-                fontSize: "16px"
+                fontSize: "16px",
+                textAlign: isMobile ? "center" : "left"
               }}>Perusahaan</h4>
-              <ul style={{ listStyle: "none", padding: 0 }}>
+              <ul style={{ 
+                listStyle: "none", 
+                padding: 0,
+                textAlign: isMobile ? "center" : "left"
+              }}>
                 <li style={{ marginBottom: "10px" }}>
                   <a href="#" style={{ color: "#a0aec0", textDecoration: "none" }}>Tentang</a>
                 </li>
@@ -662,14 +715,19 @@ const VendingPublic = () => {
               </ul>
             </div>
             
-            <div className="column is-2">
+            <div className={`column ${isMobile ? 'is-6' : 'is-2'}`}>
               <h4 style={{
                 color: "white",
                 fontWeight: "700",
                 marginBottom: "20px",
-                fontSize: "16px"
+                fontSize: "16px",
+                textAlign: isMobile ? "center" : "left"
               }}>Dukungan</h4>
-              <ul style={{ listStyle: "none", padding: 0 }}>
+              <ul style={{ 
+                listStyle: "none", 
+                padding: 0,
+                textAlign: isMobile ? "center" : "left"
+              }}>
                 <li style={{ marginBottom: "10px" }}>
                   <a href="#" style={{ color: "#a0aec0", textDecoration: "none" }}>Pusat Bantuan</a>
                 </li>
@@ -682,22 +740,25 @@ const VendingPublic = () => {
               </ul>
             </div>
             
-            <div className="column is-4">
+            <div className={`column ${isMobile ? 'is-12' : 'is-4'}`}>
               <h4 style={{
                 color: "white",
                 fontWeight: "700",
                 marginBottom: "20px",
-                fontSize: "16px"
+                fontSize: "16px",
+                textAlign: isMobile ? "center" : "left"
               }}>Newsletter</h4>
               <p style={{
                 color: "#a0aec0",
-                marginBottom: "20px"
+                marginBottom: "20px",
+                textAlign: isMobile ? "center" : "left"
               }}>
                 Dapatkan update terbaru tentang produk dan fitur kami.
               </p>
               <div style={{
                 display: "flex",
-                gap: "10px"
+                gap: "10px",
+                flexDirection: isMobile ? "column" : "row"
               }}>
                 <input
                   type="email"
@@ -720,7 +781,8 @@ const VendingPublic = () => {
                     border: "none",
                     borderRadius: "8px",
                     fontWeight: "600",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    whiteSpace: "nowrap"
                   }}
                 >
                   Berlangganan
