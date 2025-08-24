@@ -10,6 +10,18 @@ const Checkout = () => {
   const [inserted, setInserted] = useState(0);
   const [message, setMessage] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (location.state) {
@@ -86,7 +98,7 @@ const Checkout = () => {
         <div className='container mt-5'>
           <div style={{ textAlign: "center" }}>
             <div style={{
-              fontSize: "80px",
+              fontSize: isMobile ? "60px" : "80px",
               color: "#cbd5e0",
               marginBottom: "20px"
             }}>
@@ -94,7 +106,7 @@ const Checkout = () => {
             </div>
             <p style={{
               color: "#4a5568",
-              fontSize: "1.2rem",
+              fontSize: isMobile ? "1.1rem" : "1.2rem",
               fontWeight: "600",
               marginBottom: "20px"
             }}>Tidak ada produk yang dipilih</p>
@@ -104,17 +116,20 @@ const Checkout = () => {
                 color: "white",
                 border: "none",
                 borderRadius: "25px",
-                padding: "16px 32px",
+                padding: isMobile ? "12px 24px" : "16px 32px",
                 fontWeight: "700",
-                fontSize: "16px",
+                fontSize: isMobile ? "14px" : "16px",
                 cursor: "pointer",
                 transition: "all 0.3s ease",
-                boxShadow: "0 8px 24px rgba(49,130,206,0.3)"
+                boxShadow: "0 8px 24px rgba(49,130,206,0.3)",
+                width: isMobile ? "90%" : "auto"
               }}
               onClick={goBack}
               onMouseEnter={(e) => {
-                e.target.style.transform = "translateY(-2px)";
-                e.target.style.boxShadow = "0 12px 32px rgba(49,130,206,0.4)";
+                if (!isMobile) {
+                  e.target.style.transform = "translateY(-2px)";
+                  e.target.style.boxShadow = "0 12px 32px rgba(49,130,206,0.4)";
+                }
               }}
               onMouseLeave={(e) => {
                 e.target.style.transform = "translateY(0)";
@@ -132,41 +147,43 @@ const Checkout = () => {
   return (
     <div style={{ background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)", minHeight: "100vh" }}>
       <div className='container' style={{ paddingTop: "40px" }}>
-        <div style={{ textAlign: "left", marginBottom: "60px" }}>
+        <div style={{ textAlign: isMobile ? "center" : "left", marginBottom: isMobile ? "40px" : "60px" }}>
           <div style={{
             display: "inline-flex",
             alignItems: "center",
             gap: "12px",
             background: "rgba(49,130,206,0.1)",
-            padding: "12px 24px",
+            padding: isMobile ? "8px 16px" : "12px 24px",
             borderRadius: "25px",
             marginBottom: "20px"
           }}>
-            <span style={{ fontSize: "20px" }}>💳</span>
+            <span style={{ fontSize: isMobile ? "16px" : "20px" }}>💳</span>
             <span style={{
-              fontSize: "14px",
+              fontSize: isMobile ? "12px" : "14px",
               fontWeight: "600",
               color: "#3182ce"
             }}>PEMBAYARAN</span>
           </div>
         </div>
 
-        <div className='columns'>
+        <div className={`columns ${isMobile ? 'is-mobile' : ''}`}>
           {/* Order Summary */}
-          <div className='column is-two-thirds'>
+          <div className={`column ${isMobile ? 'is-12' : 'is-two-thirds'}`}>
             <div style={{
               background: "rgba(255,255,255,0.9)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(255,255,255,0.6)",
               borderRadius: "24px",
-              padding: "30px",
+              padding: isMobile ? "20px" : "30px",
               boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
+              marginBottom: isMobile ? "20px" : "0"
             }}>
               <h2 style={{
                 color: "#1a202c",
                 fontWeight: "700",
-                fontSize: "1.8rem",
-                marginBottom: "30px"
+                fontSize: isMobile ? "1.5rem" : "1.8rem",
+                marginBottom: "30px",
+                textAlign: isMobile ? "center" : "left"
               }}>📋 Ringkasan Pesanan</h2>
               {selectedProducts.map((product, index) => (
                 <div key={index} style={{
@@ -175,16 +192,21 @@ const Checkout = () => {
                   alignItems: "center",
                   marginBottom: "20px",
                   paddingBottom: "20px",
-                  borderBottom: "1px solid #f0f0f0"
+                  borderBottom: "1px solid #f0f0f0",
+                  flexDirection: isMobile ? "column" : "row",
+                  gap: isMobile ? "15px" : "0"
                 }}>
                   <div style={{
                     display: "flex",
-                    alignItems: "center"
+                    alignItems: "center",
+                    flexDirection: isMobile ? "column" : "row",
+                    textAlign: isMobile ? "center" : "left"
                   }}>
                     <figure style={{
-                      width: "60px",
-                      height: "60px",
-                      marginRight: "20px",
+                      width: isMobile ? "80px" : "60px",
+                      height: isMobile ? "80px" : "60px",
+                      marginRight: isMobile ? "0" : "20px",
+                      marginBottom: isMobile ? "15px" : "0",
                       overflow: "hidden",
                       borderRadius: "15px"
                     }}>
@@ -202,33 +224,36 @@ const Checkout = () => {
                     <div>
                       <strong style={{
                         color: "#1a202c",
-                        fontSize: "1.1rem",
+                        fontSize: isMobile ? "1rem" : "1.1rem",
                         fontWeight: "600"
                       }}>{product.name}</strong>
                       <p style={{
                         color: "#718096",
                         margin: "4px 0 0 0",
-                        fontSize: "0.9rem"
+                        fontSize: isMobile ? "0.8rem" : "0.9rem"
                       }}>Qty: {product.quantity}</p>
                     </div>
                   </div>
-                  <div style={{ textAlign: "right" }}>
+                  <div style={{ 
+                    textAlign: isMobile ? "center" : "right",
+                    width: isMobile ? "100%" : "auto"
+                  }}>
                     <p style={{
                       color: "#3182ce",
                       fontWeight: "700",
-                      fontSize: "1.2rem",
+                      fontSize: isMobile ? "1.1rem" : "1.2rem",
                       margin: "0 0 4px 0"
                     }}>Rp{(product.price * product.quantity).toLocaleString()}</p>
                     <small style={{
                       color: "#a0aec0",
-                      fontSize: "0.85rem"
+                      fontSize: isMobile ? "0.8rem" : "0.85rem"
                     }}>@Rp{product.price.toLocaleString()}</small>
                   </div>
                 </div>
               ))}
               
               <div style={{
-                textAlign: "right",
+                textAlign: isMobile ? "center" : "right",
                 marginTop: "30px",
                 paddingTop: "20px",
                 borderTop: "2px solid #f0f0f0"
@@ -236,7 +261,7 @@ const Checkout = () => {
                 <h3 style={{
                   color: "#1a202c",
                   fontWeight: "800",
-                  fontSize: "2rem",
+                  fontSize: isMobile ? "1.6rem" : "2rem",
                   margin: 0
                 }}>Total: Rp{totalPrice.toLocaleString()}</h3>
               </div>
@@ -244,20 +269,21 @@ const Checkout = () => {
           </div>
 
           {/* Payment Section */}
-          <div className='column is-one-third'>
+          <div className={`column ${isMobile ? 'is-12' : 'is-one-third'}`}>
             <div style={{
               background: "rgba(255,255,255,0.9)",
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(255,255,255,0.6)",
               borderRadius: "24px",
-              padding: "30px",
+              padding: isMobile ? "20px" : "30px",
               boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
             }}>
               <h2 style={{
                 color: "#1a202c",
                 fontWeight: "700",
-                fontSize: "1.8rem",
-                marginBottom: "30px"
+                fontSize: isMobile ? "1.5rem" : "1.8rem",
+                marginBottom: "30px",
+                textAlign: isMobile ? "center" : "left"
               }}>💳 Pembayaran</h2>
               
               {/* Money Input */}
@@ -265,15 +291,17 @@ const Checkout = () => {
                 <label style={{
                   color: "#1a202c",
                   fontWeight: "600",
-                  fontSize: "1rem",
+                  fontSize: isMobile ? "0.9rem" : "1rem",
                   marginBottom: "15px",
-                  display: "block"
+                  display: "block",
+                  textAlign: isMobile ? "center" : "left"
                 }}>Masukkan Uang</label>
                 <div style={{
                   display: "flex",
                   flexWrap: "wrap",
                   gap: "8px",
-                  marginBottom: "20px"
+                  marginBottom: "20px",
+                  justifyContent: isMobile ? "center" : "flex-start"
                 }}>
                   {[2000, 5000, 10000, 20000, 50000].map(amount => (
                     <button
@@ -283,9 +311,9 @@ const Checkout = () => {
                         color: "#3182ce",
                         border: "2px solid rgba(49,130,206,0.3)",
                         borderRadius: "15px",
-                        padding: "12px 16px",
+                        padding: isMobile ? "10px 12px" : "12px 16px",
                         fontWeight: "600",
-                        fontSize: "14px",
+                        fontSize: isMobile ? "12px" : "14px",
                         cursor: isProcessing ? "not-allowed" : "pointer",
                         transition: "all 0.3s ease",
                         opacity: isProcessing ? 0.6 : 1
@@ -293,7 +321,7 @@ const Checkout = () => {
                       onClick={() => insertMoney(amount)}
                       disabled={isProcessing}
                       onMouseEnter={(e) => {
-                        if (!isProcessing) {
+                        if (!isProcessing && !isMobile) {
                           e.target.style.background = "rgba(49,130,206,0.2)";
                           e.target.style.transform = "translateY(-2px)";
                         }
@@ -313,9 +341,9 @@ const Checkout = () => {
                     color: "white",
                     border: "none",
                     borderRadius: "20px",
-                    padding: "12px 24px",
+                    padding: isMobile ? "10px 20px" : "12px 24px",
                     fontWeight: "600",
-                    fontSize: "14px",
+                    fontSize: isMobile ? "13px" : "14px",
                     cursor: isProcessing ? "not-allowed" : "pointer",
                     transition: "all 0.3s ease",
                     width: "100%",
@@ -325,7 +353,7 @@ const Checkout = () => {
                   onClick={resetMoney}
                   disabled={isProcessing}
                   onMouseEnter={(e) => {
-                    if (!isProcessing) {
+                    if (!isProcessing && !isMobile) {
                       e.target.style.transform = "translateY(-2px)";
                     }
                   }}
@@ -341,18 +369,20 @@ const Checkout = () => {
               <div style={{ marginBottom: "30px" }}>
                 <p style={{
                   color: "#1a202c",
-                  fontSize: "1.1rem",
-                  margin: "0 0 8px 0"
+                  fontSize: isMobile ? "1rem" : "1.1rem",
+                  margin: "0 0 8px 0",
+                  textAlign: isMobile ? "center" : "left"
                 }}>Total uang: <strong style={{ color: "#3182ce" }}>Rp{inserted.toLocaleString()}</strong></p>
                 {inserted >= totalPrice ? (
                   <p style={{
                     color: "#38a169",
                     fontWeight: "600",
-                    fontSize: "1rem",
+                    fontSize: isMobile ? "0.9rem" : "1rem",
                     margin: 0,
                     display: "flex",
                     alignItems: "center",
-                    gap: "8px"
+                    gap: "8px",
+                    justifyContent: isMobile ? "center" : "flex-start"
                   }}>
                     <span>✅</span> Uang cukup
                   </p>
@@ -360,11 +390,12 @@ const Checkout = () => {
                   <p style={{
                     color: "#e53e3e",
                     fontWeight: "600",
-                    fontSize: "1rem",
+                    fontSize: isMobile ? "0.9rem" : "1rem",
                     margin: 0,
                     display: "flex",
                     alignItems: "center",
-                    gap: "8px"
+                    gap: "8px",
+                    justifyContent: isMobile ? "center" : "flex-start"
                   }}>
                     <span>⚠️</span> Kurang Rp{(totalPrice - inserted).toLocaleString()}
                   </p>
@@ -380,9 +411,9 @@ const Checkout = () => {
                   color: "white",
                   border: "none",
                   borderRadius: "25px",
-                  padding: "16px 32px",
+                  padding: isMobile ? "14px 28px" : "16px 32px",
                   fontWeight: "700",
-                  fontSize: "16px",
+                  fontSize: isMobile ? "15px" : "16px",
                   cursor: inserted >= totalPrice && !isProcessing ? "pointer" : "not-allowed",
                   transition: "all 0.3s ease",
                   boxShadow: inserted >= totalPrice 
@@ -395,7 +426,7 @@ const Checkout = () => {
                 onClick={processPurchase}
                 disabled={inserted < totalPrice || isProcessing}
                 onMouseEnter={(e) => {
-                  if (inserted >= totalPrice && !isProcessing) {
+                  if (inserted >= totalPrice && !isProcessing && !isMobile) {
                     e.target.style.transform = "translateY(-2px)";
                     e.target.style.boxShadow = "0 12px 32px rgba(56,161,105,0.4)";
                   }
@@ -463,43 +494,79 @@ const Checkout = () => {
                     color: message.includes('berhasil') ? "#38a169" : "#e53e3e",
                     fontWeight: "600",
                     margin: 0,
-                    fontSize: "0.95rem"
+                    fontSize: isMobile ? "0.9rem" : "0.95rem",
+                    textAlign: isMobile ? "center" : "left"
                   }}>
                     {message}
                   </p>
                 </div>
               )}
 
-              {/* Back Button */}
-              <button
-                style={{
-                  background: "rgba(49,130,206,0.1)",
-                  color: "#3182ce",
-                  border: "2px solid rgba(49,130,206,0.3)",
-                  borderRadius: "20px",
-                  padding: "12px 24px",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                  cursor: isProcessing ? "not-allowed" : "pointer",
-                  transition: "all 0.3s ease",
-                  width: "100%",
-                  opacity: isProcessing ? 0.6 : 1
-                }}
-                onClick={goToProductSelection}
-                disabled={isProcessing}
-                onMouseEnter={(e) => {
-                  if (!isProcessing) {
-                    e.target.style.background = "rgba(49,130,206,0.2)";
-                    e.target.style.transform = "translateY(-2px)";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = "rgba(49,130,206,0.1)";
-                  e.target.style.transform = "translateY(0)";
-                }}
-              >
-                🔙 Kembali ke Pilihan Produk
-              </button>
+              {/* Back Buttons */}
+              <div style={{
+                display: "flex",
+                gap: isMobile ? "10px" : "15px",
+                flexDirection: isMobile ? "column" : "row"
+              }}>
+                <button
+                  style={{
+                    background: "rgba(49,130,206,0.1)",
+                    color: "#3182ce",
+                    border: "2px solid rgba(49,130,206,0.3)",
+                    borderRadius: "20px",
+                    padding: isMobile ? "10px 20px" : "12px 24px",
+                    fontWeight: "600",
+                    fontSize: isMobile ? "13px" : "14px",
+                    cursor: isProcessing ? "not-allowed" : "pointer",
+                    transition: "all 0.3s ease",
+                    flex: 1,
+                    opacity: isProcessing ? 0.6 : 1
+                  }}
+                  onClick={goToProductSelection}
+                  disabled={isProcessing}
+                  onMouseEnter={(e) => {
+                    if (!isProcessing && !isMobile) {
+                      e.target.style.background = "rgba(49,130,206,0.2)";
+                      e.target.style.transform = "translateY(-2px)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = "rgba(160,174,192,0.1)";
+                    e.target.style.transform = "translateY(0)";
+                  }}
+                >
+                  🔙 Kembali ke Pilihan Produk
+                </button>
+                <button
+                  style={{
+                    background: "rgba(160,174,192,0.1)",
+                    color: "#4a5568",
+                    border: "2px solid rgba(160,174,192,0.3)",
+                    borderRadius: "20px",
+                    padding: isMobile ? "10px 20px" : "12px 24px",
+                    fontWeight: "600",
+                    fontSize: isMobile ? "13px" : "14px",
+                    cursor: isProcessing ? "not-allowed" : "pointer",
+                    transition: "all 0.3s ease",
+                    flex: 1,
+                    opacity: isProcessing ? 0.6 : 1
+                  }}
+                  onClick={() => navigate('/')}
+                  disabled={isProcessing}
+                  onMouseEnter={(e) => {
+                    if (!isProcessing && !isMobile) {
+                      e.target.style.background = "rgba(160,174,192,0.2)";
+                      e.target.style.transform = "translateY(-2px)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = "rgba(49,130,206,0.1)";
+                    e.target.style.transform = "translateY(0)";
+                  }}
+                >
+                  🏠 Kembali ke Halaman Utama
+                </button>
+              </div>
             </div>
           </div>
         </div>

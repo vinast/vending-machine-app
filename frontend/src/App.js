@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import VendingPublic from './components/VendingPublic';
-import ProductSelection from './components/ProductSelection';
-import Checkout from './components/Checkout';
-import Login from './components/Login';
-import Register from './components/Register';
-import Dashboard from './components/Dashboard';
-import History from './components/History';
-import Navbar from './components/Navbar';
+import VendingPublic from './components/user/VendingPublic';
+import ProductSelection from './components/user/ProductSelection';
+import Checkout from './components/user/Checkout';
+import Login from './components/admin/Login';
+import Register from './components/admin/Register';
+import Dashboard from './components/admin/Dashboard';
+import History from './components/admin/History';
+import Navbar from './components/admin/Navbar';
 
 function App() {
   return (

@@ -6,7 +6,19 @@ const ProductSelection = () => {
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -95,24 +107,22 @@ const ProductSelection = () => {
     return selectedProducts[productId] !== undefined;
   };
 
-
-
   return (
     <div style={{ background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)", minHeight: "100vh" }}>
       <div className='container' style={{ paddingTop: "40px" }}>
-        <div style={{ textAlign: "left", marginBottom: "60px" }}>
+        <div style={{ textAlign: isMobile ? "center" : "left", marginBottom: isMobile ? "40px" : "60px" }}>
           <div style={{
             display: "inline-flex",
-            alignItems: "left",
+            alignItems: "center",
             gap: "12px",
             background: "rgba(49,130,206,0.1)",
-            padding: "12px 24px",
+            padding: isMobile ? "8px 16px" : "12px 24px",
             borderRadius: "25px",
             marginBottom: "20px"
           }}>
-            <span style={{ fontSize: "20px" }}>🛒</span>
+            <span style={{ fontSize: isMobile ? "16px" : "20px" }}>🛒</span>
             <span style={{
-              fontSize: "14px",
+              fontSize: isMobile ? "12px" : "14px",
               fontWeight: "600",
               color: "#3182ce"
             }}>PILIH PRODUK</span>
@@ -126,7 +136,7 @@ const ProductSelection = () => {
             backdropFilter: "blur(20px)",
             border: "1px solid rgba(255,255,255,0.6)",
             borderRadius: "24px",
-            padding: "30px",
+            padding: isMobile ? "20px" : "30px",
             boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
             borderLeft: "4px solid #3182ce",
             marginBottom: "40px"
@@ -134,49 +144,91 @@ const ProductSelection = () => {
             <div style={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center"
+              alignItems: "center",
+              flexDirection: isMobile ? "column" : "row",
+              gap: isMobile ? "15px" : "0"
             }}>
-              <div>
+              <div style={{ textAlign: isMobile ? "center" : "left" }}>
                 <h3 style={{
                   color: "#1a202c",
                   fontWeight: "700",
-                  fontSize: "1.5rem",
+                  fontSize: isMobile ? "1.3rem" : "1.5rem",
                   margin: "0 0 8px 0"
                 }}>🛒 Keranjang Belanja</h3>
                 <p style={{
                   color: "#3182ce",
-                  fontSize: "1.2rem",
+                  fontSize: isMobile ? "1.1rem" : "1.2rem",
                   fontWeight: "600",
                   margin: 0
                 }}>
                   Total: <strong>Rp{totalPrice.toLocaleString()}</strong>
                 </p>
               </div>
-              <button 
-                style={{
-                  background: "linear-gradient(135deg, #38a169 0%, #2f855a 100%)",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "20px",
-                  padding: "16px 32px",
-                  fontWeight: "700",
-                  fontSize: "16px",
-                  cursor: "pointer",
-                  transition: "all 0.3s ease",
-                  boxShadow: "0 8px 24px rgba(56,161,105,0.3)"
-                }}
-                onClick={proceedToCheckout}
-                onMouseEnter={(e) => {
-                  e.target.style.transform = "translateY(-2px)";
-                  e.target.style.boxShadow = "0 12px 32px rgba(56,161,105,0.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.transform = "translateY(0)";
-                  e.target.style.boxShadow = "0 8px 24px rgba(56,161,105,0.3)";
-                }}
-              >
-                💳 Lanjut ke Pembayaran
-              </button>
+              <div style={{
+                display: "flex",
+                gap: isMobile ? "10px" : "15px",
+                flexDirection: isMobile ? "column" : "row",
+                width: isMobile ? "100%" : "auto"
+              }}>
+                <button 
+                  style={{
+                    background: "rgba(49,130,206,0.1)",
+                    color: "#3182ce",
+                    border: "2px solid rgba(49,130,206,0.3)",
+                    borderRadius: "20px",
+                    padding: isMobile ? "12px 24px" : "16px 32px",
+                    fontWeight: "700",
+                    fontSize: isMobile ? "14px" : "16px",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 4px 16px rgba(49,130,206,0.2)",
+                    width: isMobile ? "100%" : "auto"
+                  }}
+                  onClick={() => navigate('/')}
+                  onMouseEnter={(e) => {
+                    if (!isMobile) {
+                      e.target.style.transform = "translateY(-2px)";
+                      e.target.style.boxShadow = "0 8px 24px rgba(49,130,206,0.3)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow = "0 4px 16px rgba(49,130,206,0.2)";
+                  }}
+                >
+                  🏠 Kembali ke Halaman Utama
+                </button>
+                <button 
+                  style={{
+                    background: "linear-gradient(135deg, #38a169 0%, #2f855a 100%)",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "20px",
+                    padding: isMobile ? "12px 24px" : "16px 32px",
+                    fontWeight: "700",
+                    fontSize: isMobile ? "14px" : "16px",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 8px 24px rgba(56,161,105,0.3)",
+                    width: isMobile ? "100%" : "auto"
+                  }}
+                  onClick={proceedToCheckout}
+                  onMouseEnter={(e) => {
+                    if (!isMobile) {
+                      e.target.style.transform = "translateY(-2px)";
+                      e.target.style.boxShadow = "0 12px 32px rgba(56,161,105,0.4)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isMobile) {
+                      e.target.style.transform = "translateY(0)";
+                      e.target.style.boxShadow = "0 8px 24px rgba(56,161,105,0.3)";
+                    }
+                  }}
+                >
+                  💳 Lanjut ke Pembayaran
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -184,7 +236,7 @@ const ProductSelection = () => {
         {/* Products Grid */}
         <div className='columns is-multiline'>
           {products.map(product => (
-            <div key={product.id} className='column is-4'>
+            <div key={product.id} className={`column ${isMobile ? 'is-12' : 'is-4'}`}>
               <div style={{
                 background: isProductSelected(product.id) 
                   ? "rgba(49,130,206,0.05)" 
@@ -194,16 +246,17 @@ const ProductSelection = () => {
                   ? "2px solid rgba(49,130,206,0.3)"
                   : "1px solid rgba(255,255,255,0.6)",
                 borderRadius: "24px",
-                padding: "30px",
+                padding: isMobile ? "20px" : "30px",
                 boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
                 transition: "all 0.3s ease",
                 transform: isProductSelected(product.id) ? "translateY(-4px)" : "translateY(0)",
-                borderLeft: isProductSelected(product.id) ? "4px solid #3182ce" : "none"
+                borderLeft: isProductSelected(product.id) ? "4px solid #3182ce" : "none",
+                marginBottom: isMobile ? "20px" : "0"
               }}>
                 <div style={{ textAlign: "center", marginBottom: "24px" }}>
                   <div style={{
-                    width: "128px",
-                    height: "128px",
+                    width: isMobile ? "200px" : "128px",
+                    height: isMobile ? "200px" : "128px",
                     margin: "0 auto",
                     overflow: "hidden",
                     borderRadius: "16px",
@@ -226,19 +279,19 @@ const ProductSelection = () => {
                   <h3 style={{
                     color: "#1a202c",
                     fontWeight: "700",
-                    fontSize: "1.3rem",
+                    fontSize: isMobile ? "1.1rem" : "1.3rem",
                     margin: "0 0 12px 0"
                   }}>{product.name}</h3>
                   <p style={{
                     color: "#3182ce",
                     fontWeight: "800",
-                    fontSize: "1.5rem",
+                    fontSize: isMobile ? "1.3rem" : "1.5rem",
                     margin: "0 0 8px 0"
                   }}>Rp{product.price.toLocaleString()}</p>
                   <p style={{
                     color: product.stock > 0 ? "#38a169" : "#e53e3e",
                     fontWeight: "600",
-                    fontSize: "0.9rem",
+                    fontSize: isMobile ? "0.8rem" : "0.9rem",
                     margin: 0
                   }}>Stok: {product.stock}</p>
                 </div>
@@ -258,16 +311,16 @@ const ProductSelection = () => {
                           color: "#3182ce",
                           border: "2px solid rgba(49,130,206,0.3)",
                           borderRadius: "12px",
-                          padding: "8px 12px",
+                          padding: isMobile ? "10px 14px" : "8px 12px",
                           fontWeight: "600",
-                          fontSize: "14px",
+                          fontSize: isMobile ? "16px" : "14px",
                           cursor: "pointer",
                           transition: "all 0.3s ease"
                         }}
                         onClick={() => handleQuantityChange(product.id, getSelectedQuantity(product.id) - 1)}
                         disabled={getSelectedQuantity(product.id) <= 1}
                         onMouseEnter={(e) => {
-                          if (getSelectedQuantity(product.id) > 1) {
+                          if (getSelectedQuantity(product.id) > 1 && !isMobile) {
                             e.target.style.background = "rgba(49,130,206,0.2)";
                             e.target.style.transform = "scale(1.1)";
                           }
@@ -281,11 +334,11 @@ const ProductSelection = () => {
                       </button>
                       <input 
                         style={{
-                          width: "60px",
-                          padding: "8px",
+                          width: isMobile ? "80px" : "60px",
+                          padding: isMobile ? "10px" : "8px",
                           border: "2px solid #e2e8f0",
                           borderRadius: "8px",
-                          fontSize: "14px",
+                          fontSize: isMobile ? "16px" : "14px",
                           textAlign: "center",
                           fontWeight: "600"
                         }}
@@ -301,16 +354,16 @@ const ProductSelection = () => {
                           color: "#3182ce",
                           border: "2px solid rgba(49,130,206,0.3)",
                           borderRadius: "12px",
-                          padding: "8px 12px",
+                          padding: isMobile ? "10px 14px" : "8px 12px",
                           fontWeight: "600",
-                          fontSize: "14px",
+                          fontSize: isMobile ? "16px" : "14px",
                           cursor: "pointer",
                           transition: "all 0.3s ease"
                         }}
                         onClick={() => handleQuantityChange(product.id, getSelectedQuantity(product.id) + 1)}
                         disabled={getSelectedQuantity(product.id) >= product.stock}
                         onMouseEnter={(e) => {
-                          if (getSelectedQuantity(product.id) < product.stock) {
+                          if (getSelectedQuantity(product.id) < product.stock && !isMobile) {
                             e.target.style.background = "rgba(49,130,206,0.2)";
                             e.target.style.transform = "scale(1.1)";
                           }
@@ -329,17 +382,19 @@ const ProductSelection = () => {
                         color: "#e53e3e",
                         border: "2px solid rgba(229,62,62,0.3)",
                         borderRadius: "20px",
-                        padding: "12px 24px",
+                        padding: isMobile ? "15px 24px" : "12px 24px",
                         fontWeight: "600",
-                        fontSize: "14px",
+                        fontSize: isMobile ? "16px" : "14px",
                         cursor: "pointer",
                         transition: "all 0.3s ease",
                         width: "100%"
                       }}
                       onClick={() => removeFromCart(product.id)}
                       onMouseEnter={(e) => {
-                        e.target.style.background = "rgba(229,62,62,0.2)";
-                        e.target.style.transform = "translateY(-2px)";
+                        if (!isMobile) {
+                          e.target.style.background = "rgba(229,62,62,0.2)";
+                          e.target.style.transform = "translateY(-2px)";
+                        }
                       }}
                       onMouseLeave={(e) => {
                         e.target.style.background = "rgba(229,62,62,0.1)";
@@ -359,9 +414,9 @@ const ProductSelection = () => {
                         color: "white",
                         border: "none",
                         borderRadius: "20px",
-                        padding: "16px 32px",
+                        padding: isMobile ? "18px 32px" : "16px 32px",
                         fontWeight: "700",
-                        fontSize: "16px",
+                        fontSize: isMobile ? "18px" : "16px",
                         cursor: product.stock > 0 ? "pointer" : "not-allowed",
                         transition: "all 0.3s ease",
                         boxShadow: product.stock > 0 
@@ -373,7 +428,7 @@ const ProductSelection = () => {
                       onClick={() => addToCart(product)}
                       disabled={product.stock <= 0}
                       onMouseEnter={(e) => {
-                        if (product.stock > 0) {
+                        if (product.stock > 0 && !isMobile) {
                           e.target.style.transform = "translateY(-2px)";
                           e.target.style.boxShadow = "0 12px 32px rgba(49,130,206,0.4)";
                         }
@@ -396,9 +451,9 @@ const ProductSelection = () => {
 
         {/* Empty State */}
         {Object.keys(selectedProducts).length === 0 && (
-          <div style={{ textAlign: "center", padding: "60px 20px" }}>
+          <div style={{ textAlign: "center", padding: isMobile ? "40px 20px" : "60px 20px" }}>
             <div style={{
-              fontSize: "80px",
+              fontSize: isMobile ? "60px" : "80px",
               color: "#cbd5e0",
               marginBottom: "20px"
             }}>
@@ -406,13 +461,13 @@ const ProductSelection = () => {
             </div>
             <p style={{
               color: "#4a5568",
-              fontSize: "1.2rem",
+              fontSize: isMobile ? "1.1rem" : "1.2rem",
               fontWeight: "600",
               marginBottom: "12px"
             }}>Belum ada produk yang dipilih</p>
             <p style={{
               color: "#a0aec0",
-              fontSize: "1rem"
+              fontSize: isMobile ? "0.9rem" : "1rem"
             }}>Pilih produk di atas untuk menambahkan ke keranjang</p>
           </div>
         )}
