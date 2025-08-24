@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,14 @@ const Register = () => {
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
 
+  // Check if admin is already logged in
+  useEffect(() => {
+    const adminToken = localStorage.getItem('adminToken');
+    if (adminToken) {
+      navigate("/admin");
+    }
+  }, [navigate]);
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
@@ -19,7 +27,7 @@ const Register = () => {
         password: password,
         confPassword: confPassword,
       });
-      navigate("/"); // redirect ke login
+      navigate("/admin/login"); // redirect ke admin login
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);

@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
-import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
-    const [name, setName] = useState('');
-    const [token, setToken] = useState('');
-    const [expire, setExpire] = useState('');
+    const [name, setName] = useState('Admin');
     const [users, setUsers] = useState([]); // ✅ simpan list users
     const [products, setProducts] = useState([]);
     const [selectedProductId, setSelectedProductId] = useState(null);
@@ -17,52 +14,19 @@ function Dashboard() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        refreshToken();
         getUsers();
         fetchProducts();
     }, []);
-
-    const refreshToken = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/token');
-            setToken(response.data.accessToken);
-            const decoded = jwtDecode(response.data.accessToken);
-            setName(decoded.name);
-            setExpire(decoded.exp);
-        } catch (error) {
-            if (error.response) {
-                navigate("/admin/login");
-            }
-        }
-    };
 
     // Create axios instance with interceptors
     const axiosJWT = axios.create();
 
     axiosJWT.interceptors.request.use(async (config) => {
-        const currentDate = new Date();
-        
-        // Check if token is expired
-        if (expire * 1000 < currentDate.getTime()) {
-            try {
-                // Refresh token if expired
-                const response = await axios.get('http://localhost:5000/token');
-                setToken(response.data.accessToken);
-                const decoded = jwtDecode(response.data.accessToken);
-                setExpire(decoded.exp);
-                
-                // Update the request with new token
-                config.headers.Authorization = `Bearer ${response.data.accessToken}`;
-            } catch (error) {
-                // If refresh fails, redirect to login
-                navigate("/admin/login");
-                return Promise.reject(error);
-            }
-        } else {
-            // Use current token if still valid
+        // Get token from localStorage if available
+        const token = localStorage.getItem('adminToken');
+        if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
-        
         return config;
     }, (error) => {
         return Promise.reject(error);
@@ -73,22 +37,10 @@ function Dashboard() {
         (response) => response,
         async (error) => {
             if (error.response?.status === 403) {
-                try {
-                    // Try to refresh token
-                    const response = await axios.get('http://localhost:5000/token');
-                    setToken(response.data.accessToken);
-                    const decoded = jwtDecode(response.data.accessToken);
-                    setExpire(decoded.exp);
-                    
-                    // Retry the original request with new token
-                    const originalRequest = error.config;
-                    originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
-                    return axiosJWT(originalRequest);
-                } catch (refreshError) {
-                    // If refresh fails, redirect to login
-                    navigate("/admin/login");
-                    return Promise.reject(refreshError);
-                }
+                // Clear token and redirect to login
+                localStorage.removeItem('adminToken');
+                navigate("/admin/login");
+                return Promise.reject(error);
             }
             return Promise.reject(error);
         }
@@ -158,11 +110,6 @@ function Dashboard() {
 
     const saveProduct = async () => {
         try {
-            // Ensure we have a valid token before proceeding
-            if (!token) {
-                await refreshToken();
-            }
-
             const formDataToSend = new FormData();
             formDataToSend.append('name', formData.name);
             formDataToSend.append('price', formData.price);
@@ -192,23 +139,12 @@ function Dashboard() {
         } catch (e) {
             console.error('Error saving product:', e);
             console.error('Error response:', e.response?.data);
-            
-            if (e.response?.status === 403) {
-                alert('Session expired. Please refresh the page and try again.');
-                await refreshToken();
-            } else {
-                alert('Error saving product: ' + (e.response?.data?.msg || e.message));
-            }
+            alert('Error saving product: ' + (e.response?.data?.msg || e.message));
         }
     };
 
     const deleteProduct = async (id) => {
         try {
-            // Ensure we have a valid token before proceeding
-            if (!token) {
-                await refreshToken();
-            }
-
             console.log('Deleting product with ID:', id);
             const response = await axiosJWT.delete(`http://localhost:5000/products/${id}`);
             console.log('Product deleted:', response.data);
@@ -216,13 +152,7 @@ function Dashboard() {
         } catch (e) {
             console.error('Error deleting product:', e);
             console.error('Error response:', e.response?.data);
-            
-            if (e.response?.status === 403) {
-                alert('Session expired. Please refresh the page and try again.');
-                await refreshToken();
-            } else {
-                alert('Error deleting product: ' + (e.response?.data?.msg || e.message));
-            }
+            alert('Error deleting product: ' + (e.response?.data?.msg || e.message));
         }
     };
 

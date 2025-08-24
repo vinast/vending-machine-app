@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 
@@ -8,13 +8,27 @@ const Login = () => {
     const [msg, setMsg] = useState("");
     const navigate = useNavigate();
 
+    // Check if admin is already logged in
+    useEffect(() => {
+        const adminToken = localStorage.getItem('adminToken');
+        if (adminToken) {
+            navigate("/admin");
+        }
+    }, [navigate]);
+
     const Auth = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/login", {
+      const response = await axios.post("http://localhost:5000/login", {
         email: email,
         password: password,
       });
+      
+      // Store token in localStorage for persistent session
+      if (response.data.accessToken) {
+        localStorage.setItem('adminToken', response.data.accessToken);
+      }
+      
       navigate("/admin"); 
     } catch (error) {
       if (error.response) {
