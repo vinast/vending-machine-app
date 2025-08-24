@@ -309,11 +309,18 @@ Aplikasi otomatis akan membuat produk default saat pertama kali dijalankan denga
 ## 🌟 Fitur Unggulan
 
 - **Interface Modern**: Design yang menarik dan user-friendly
+- <img width="1918" height="1079" alt="image" src="https://github.com/user-attachments/assets/83fdeede-5c68-492f-a064-06b29838827a" />
 - **Carousel Produk**: Tampilan produk yang menarik dengan React Slick
-- **Upload Gambar**: Fitur upload dan preview gambar produk
-- **Real-time Updates**: Update stok dan transaksi secara real-time
-- **Mobile First**: Design yang optimal untuk perangkat mobile
-- **Admin Panel Lengkap**: Manajemen produk dan transaksi yang komprehensif
-- **Security**: Sistem autentikasi yang aman dan robust
+- <img width="1913" height="1078" alt="image" src="https://github.com/user-attachments/assets/5355f0d9-8f67-4439-89bc-b71f09202ecb" />
+- **Pilih Produk**: Fitur pilih produk
+- <img width="1917" height="1079" alt="image" src="https://github.com/user-attachments/assets/11a93bab-3d73-4f03-b9ba-ee9357c7c51d" />
+- **fitur Pembayaran**: fitur pembayaran produk
+- <img width="1915" height="1079" alt="image" src="https://github.com/user-attachments/assets/b1afa632-c5da-4c65-a05b-7e8d4a821a00" />
+- <img width="1915" height="1079" alt="image" src="https://github.com/user-attachments/assets/3d731619-2588-4365-a2db-5b1d96641216" />
+- **Histori Pembelian produk**: Histori Pembelian produk
+- <img width="1915" height="1079" alt="image" src="https://github.com/user-attachments/assets/e66bfee1-0264-4046-b06a-73acd22b2a72" />
+- **Admin Panel Lengkap**: CRUD ADMIN
+- <img width="1876" height="1068" alt="image" src="https://github.com/user-attachments/assets/c37125f7-0b7e-4f02-99fa-248966049954" />
+
 
 
