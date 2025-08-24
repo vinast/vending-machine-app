@@ -46,10 +46,24 @@ const Checkout = () => {
     setMessage('Memproses pembelian...');
 
     try {
+      console.log('🔄 Starting purchase process...', {
+        selectedProducts,
+        totalPrice,
+        inserted
+      });
+
       // Calculate proportional amounts for each product
       const purchasePromises = selectedProducts.map(product => {
         const productTotal = product.price * product.quantity;
         const proportionalAmount = Math.round((productTotal / totalPrice) * inserted);
+        
+        console.log('📦 Processing product:', {
+          productId: product.id,
+          productName: product.name,
+          quantity: product.quantity,
+          productTotal,
+          proportionalAmount
+        });
         
         return axios.post('http://localhost:5000/purchase', {
           productId: product.id,
@@ -58,7 +72,10 @@ const Checkout = () => {
         });
       });
 
+      console.log('🚀 Sending purchase requests...');
       const results = await Promise.all(purchasePromises);
+      
+      console.log('✅ Purchase results:', results);
       
       // Check if all purchases were successful
       const allSuccessful = results.every(result => result.status === 200);
@@ -77,7 +94,24 @@ const Checkout = () => {
         setMessage('Beberapa produk gagal dibeli. Silakan coba lagi.');
       }
     } catch (error) {
-      const errorMsg = error?.response?.data?.msg || 'Gagal memproses pembelian';
+      console.error('❌ Purchase error:', error);
+      
+      let errorMsg = 'Gagal memproses pembelian';
+      
+      if (error.response) {
+        // Server responded with error status
+        console.log('Server error response:', error.response);
+        errorMsg = error.response.data?.msg || errorMsg;
+      } else if (error.request) {
+        // Request was made but no response received
+        console.log('No response received:', error.request);
+        errorMsg = 'Tidak dapat terhubung ke server. Pastikan backend berjalan.';
+      } else {
+        // Something else happened
+        console.log('Other error:', error.message);
+        errorMsg = error.message || errorMsg;
+      }
+      
       setMessage(errorMsg);
     } finally {
       setIsProcessing(false);

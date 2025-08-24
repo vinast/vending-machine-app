@@ -132,46 +132,86 @@ export const purchase = async (req, res) => {
     try {
         const { productId, insertedAmount, quantity } = req.body;
         
+        console.log('🔍 Purchase request received:', { productId, insertedAmount, quantity });
+        
         // Validate input
         if (!productId || !insertedAmount || !quantity) {
+            console.log('❌ Missing required fields:', { productId, insertedAmount, quantity });
             return res.status(400).json({ msg: "Missing required fields" });
         }
         
         if (quantity <= 0) {
+            console.log('❌ Invalid quantity:', quantity);
             return res.status(400).json({ msg: "Quantity must be greater than 0" });
+        }
+        
+        if (insertedAmount <= 0) {
+            console.log('❌ Invalid inserted amount:', insertedAmount);
+            return res.status(400).json({ msg: "Inserted amount must be greater than 0" });
         }
         
         // Find product
         const product = await Product.findByPk(productId);
         if (!product) {
+            console.log('❌ Product not found with ID:', productId);
             return res.status(404).json({ msg: "Product not found" });
         }
         
+        console.log('✅ Product found:', { 
+            id: product.id, 
+            name: product.name, 
+            price: product.price, 
+            stock: product.stock 
+        });
+        
         // Check stock
         if (product.stock < quantity) {
+            console.log('❌ Insufficient stock:', { requested: quantity, available: product.stock });
             return res.status(400).json({ msg: "Stock tidak cukup" });
         }
         
         // Calculate total price
         const totalPrice = product.price * quantity;
+        console.log('💰 Price calculation:', { 
+            unitPrice: product.price, 
+            quantity, 
+            totalPrice 
+        });
         
         // Check if inserted amount is sufficient
         if (insertedAmount < totalPrice) {
+            console.log('❌ Insufficient money:', { 
+                inserted: insertedAmount, 
+                required: totalPrice, 
+                shortfall: totalPrice - insertedAmount 
+            });
             return res.status(400).json({ msg: "Uang tidak cukup" });
         }
         
         // Calculate change
         const changeAmount = insertedAmount - totalPrice;
+        console.log('💵 Change calculation:', { 
+            inserted: insertedAmount, 
+            totalPrice, 
+            changeAmount 
+        });
         
         // Update stock
+        const newStock = product.stock - quantity;
         await Product.update({
-            stock: product.stock - quantity
+            stock: newStock
         }, {
             where: { id: productId }
         });
+        console.log('📦 Stock updated:', { 
+            productId, 
+            oldStock: product.stock, 
+            newStock, 
+            quantity 
+        });
         
         // Create transaction record
-        await Transaction.create({
+        const transaction = await Transaction.create({
             productId: productId,
             productName: product.name,
             quantity: quantity,
@@ -179,16 +219,25 @@ export const purchase = async (req, res) => {
             changeAmount: changeAmount,
             totalPrice: totalPrice
         });
+        console.log('✅ Transaction created:', { 
+            id: transaction.id, 
+            productName: transaction.productName, 
+            totalPrice: transaction.totalPrice 
+        });
         
         res.json({
             msg: `Berhasil membeli ${quantity} ${product.name}`,
             changeAmount: changeAmount,
-            totalPrice: totalPrice
+            totalPrice: totalPrice,
+            transactionId: transaction.id
         });
         
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ msg: "Error processing purchase" });
+        console.error('❌ Purchase error:', error);
+        res.status(500).json({ 
+            msg: "Error processing purchase", 
+            error: error.message 
+        });
     }
 };
 

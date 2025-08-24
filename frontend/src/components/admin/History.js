@@ -1,66 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 
 const History = () => {
   const [items, setItems] = useState([]);
-  const [token, setToken] = useState('');
-  const [expire, setExpire] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    refreshToken();
+    fetchTransactions();
   }, []);
-
-  useEffect(() => {
-    if (token) {
-      fetchTransactions();
-    }
-  }, [token]);
-
-  const refreshToken = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/token');
-      setToken(response.data.accessToken);
-      const decoded = jwtDecode(response.data.accessToken);
-      setExpire(decoded.exp);
-      console.log('Token refreshed:', response.data.accessToken);
-    } catch (error) {
-      console.error('Error refreshing token:', error);
-      if (error.response) {
-        navigate("/admin/login");
-      }
-    }
-  };
 
   // Create axios instance with interceptors
   const axiosJWT = axios.create();
 
   axiosJWT.interceptors.request.use(async (config) => {
-    const currentDate = new Date();
-    
-    // Check if token is expired
-    if (expire * 1000 < currentDate.getTime()) {
-      try {
-        // Refresh token if expired
-        const response = await axios.get('http://localhost:5000/token');
-        setToken(response.data.accessToken);
-        const decoded = jwtDecode(response.data.accessToken);
-        setExpire(decoded.exp);
-        
-        // Update the request with new token
-        config.headers.Authorization = `Bearer ${response.data.accessToken}`;
-      } catch (error) {
-        // If refresh fails, redirect to login
-        navigate("/admin/login");
-        return Promise.reject(error);
-      }
-    } else {
-      // Use current token if still valid
+    // Get token from localStorage if available
+    const token = localStorage.getItem('adminToken');
+    if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
     return config;
   }, (error) => {
     return Promise.reject(error);
@@ -71,22 +29,10 @@ const History = () => {
     (response) => response,
     async (error) => {
       if (error.response?.status === 403) {
-        try {
-          // Try to refresh token
-          const response = await axios.get('http://localhost:5000/token');
-          setToken(response.data.accessToken);
-          const decoded = jwtDecode(response.data.accessToken);
-          setExpire(decoded.exp);
-          
-          // Retry the original request with new token
-          const originalRequest = error.config;
-          originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
-          return axiosJWT(originalRequest);
-        } catch (refreshError) {
-          // If refresh fails, redirect to login
-          navigate("/admin/login");
-          return Promise.reject(refreshError);
-        }
+        // Clear token and redirect to login
+        localStorage.removeItem('adminToken');
+        navigate("/admin/login");
+        return Promise.reject(error);
       }
       return Promise.reject(error);
     }
@@ -105,11 +51,6 @@ const History = () => {
 
   const deleteTransaction = async (id) => {
     try {
-      // Ensure we have a valid token before proceeding
-      if (!token) {
-        await refreshToken();
-      }
-
       console.log('Deleting transaction with ID:', id);
       
       const response = await axiosJWT.delete(`http://localhost:5000/transactions/${id}`);
@@ -121,12 +62,7 @@ const History = () => {
       console.error('Error data:', error.response?.data);
       console.error('Error config:', error.config);
       
-      if (error.response?.status === 403) {
-        alert('Session expired. Please refresh the page and try again.');
-        await refreshToken();
-      } else {
-        alert('Error deleting transaction: ' + (error.response?.data?.msg || error.message));
-      }
+      alert('Error deleting transaction: ' + (error.response?.data?.msg || error.message));
     }
   };
 

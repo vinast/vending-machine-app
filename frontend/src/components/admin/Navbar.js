@@ -10,9 +10,14 @@ const Navbar = () => {
         const Logout = async() => {
             try {
                 await axios.delete('http://localhost:5000/logout');
+                // Clear admin token from localStorage
+                localStorage.removeItem('adminToken');
                 navigate("/"); // ✅ bukan navigate.push("/")
             } catch (error) {
                 console.log(error);   
+                // Even if logout fails, clear local token
+                localStorage.removeItem('adminToken');
+                navigate("/");
             }
         }
 
